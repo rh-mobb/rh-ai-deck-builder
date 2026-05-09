@@ -43,3 +43,13 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+
+      - name: Post PDF URL to Summary
+        if: always()
+        run: |
+          PDF_URL="https://paulczar.github.io/mobb-deck-template/slides.pdf"
+          echo "## 📊 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**GitHub Pages URL:** https://paulczar.github.io/mobb-deck-template/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**PDF Preview:** [$PDF_URL]($PDF_URL)" >> $GITHUB_STEP_SUMMARY

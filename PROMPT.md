@@ -1,4 +1,4 @@
-# AI Kickoff Prompt — First Draft Slides
+# AI Kickoff Prompt  -  First Draft Slides
 
 Copy the prompt below and paste it into your AI agent (Cursor, Copilot, Claude Code, etc.) to generate a first draft of your presentation from the template.
 
@@ -9,13 +9,13 @@ Adjust the lines marked `← CHANGE THIS` before pasting.
 ```
 You are building a technical presentation slide deck using the mobb-deck-template Slidev framework.
 
-## Your reference material (read-only — do not modify)
+## Your reference material (read-only  -  do not modify)
 
 The template lives at `references/mobb-deck-template/`. Read these two files before writing a single slide:
 
-1. `references/mobb-deck-template/AGENTS.md` — authoring rules, Mermaid constraints,
+1. `references/mobb-deck-template/AGENTS.md`  -  authoring rules, Mermaid constraints,
    component API, known pitfalls, and the mandatory review checklist.
-2. `references/mobb-deck-template/slides.md` — all 15 example slide formats with
+2. `references/mobb-deck-template/slides.md`  -  all 15 example slide formats with
    speaker notes. Use this as a pattern library, not a starting point to edit.
 
 ## Output location                         ← CHANGE THIS
@@ -65,7 +65,7 @@ outcome/artifacts.
 If the audience or thesis is unclear after reading, ask one clarifying question
 before proceeding.
 
-## Authoring rules (summary — full rules in references/mobb-deck-template/AGENTS.md)
+## Authoring rules (summary  -  full rules in references/mobb-deck-template/AGENTS.md)
 
 - Use the frontmatter from the template (theme, fonts, highlighter).
 - Match each content type to the closest slide format in the template:
@@ -76,10 +76,10 @@ before proceeding.
     big quote/stat → slide 12, spectrum → slide 13, timeline → slide 14,
     closing CTA → slide 15.
 - Every slide must have a speaker note (HTML comment block).
-- Mermaid blocks must be in plain slide Markdown — NOT inside Vue component slots.
+- Mermaid blocks must be in plain slide Markdown  -  NOT inside Vue component slots.
 - Keep bullets to 4–5 items per slide. Split rather than scroll.
 - Use `<RhTwoColumn>`, `<RhTable>`, `<RhTimeline>`, `<RhSpectrum>` where they
-  fit naturally — don't force them.
+  fit naturally  -  don't force them.
 
 ## Deliverable
 
@@ -99,7 +99,7 @@ any reported errors before declaring the draft ready.
 
 **Point at specific files.** If the repo has a particularly rich `KNOWLEDGE.md` or an `ARCHITECTURE.md` with a good diagram, call them out explicitly in the prompt. The agent will weight them higher.
 
-**Expect two passes.** The first draft usually gets the structure right but the story wrong — too much "what we built" and not enough "why it matters" or "what you should steal." Add a follow-up: *"Reread slides 3–8 and reframe them around the audience's problem, not our solution."*
+**Expect two passes.** The first draft usually gets the structure right but the story wrong  -  too much "what we built" and not enough "why it matters" or "what you should steal." Add a follow-up: *"Reread slides 3–8 and reframe them around the audience's problem, not our solution."*
 
 **Section count.** A 30-minute talk fits 6–8 sections comfortably (1–2 min per section header + 2–3 content slides each). For a 45-minute talk, go to 8–10 sections. For a lightning talk, skip section headers entirely and aim for 8–12 content slides total.
 

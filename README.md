@@ -12,7 +12,7 @@ Built and maintained by the MOBB (Managed OpenShift Black Belt) team at Red Hat.
 
 There are two ways to use this template. Choose based on whether you have an existing project repo or are starting fresh.
 
-### Option A — Existing project repo (talk about a real project)
+### Option A  -  Existing project repo (talk about a real project)
 
 This is the most common case. Your project already has a repo with code, docs, and context. You want to build a talk that draws from that material.
 
@@ -28,12 +28,12 @@ git clone https://github.com/paulczar/mobb-deck-template.git references/mobb-dec
 cd references/mobb-deck-template && npm install && cd ../..
 
 # 4. Paste the kickoff prompt into your AI agent
-#    See references/mobb-deck-template/PROMPT.md — it targets slides/ as output
+#    See references/mobb-deck-template/PROMPT.md  -  it targets slides/ as output
 ```
 
-Your presentation ends up at `slides/` — tracked in your repo, separate from the template reference.
+Your presentation ends up at `slides/`  -  tracked in your repo, separate from the template reference.
 
-### Option B — Standalone presentation repo (new repo just for the talk)
+### Option B  -  Standalone presentation repo (new repo just for the talk)
 
 Use this when the talk is not tied to a specific codebase, or when you want the deck to live in its own repo.
 
@@ -50,7 +50,7 @@ git clone https://github.com/paulczar/mobb-deck-template.git references/mobb-dec
 cd references/mobb-deck-template && npm install && cd ../..
 
 # 4. Paste the kickoff prompt into your AI agent
-#    See references/mobb-deck-template/PROMPT.md — it targets the repo root as output
+#    See references/mobb-deck-template/PROMPT.md  -  it targets the repo root as output
 ```
 
 Your presentation ends up at the repo root (`slides.md`, `components/`, `styles/`, etc.).
@@ -65,7 +65,7 @@ Your presentation ends up at the repo root (`slides.md`, `components/`, `styles/
 4. Sets the output location (root or `slides/`)
 5. Tells it to run a build and fix errors before declaring the draft ready
 
-Edit the `← CHANGE THIS` lines in the prompt before pasting — audience, tone, talk length, and the one-sentence thesis are the most important inputs.
+Edit the `← CHANGE THIS` lines in the prompt before pasting  -  audience, tone, talk length, and the one-sentence thesis are the most important inputs.
 
 ---
 
@@ -135,7 +135,7 @@ Each format is demonstrated in `slides.md`. Here is a one-line summary of each:
 
 | # | Format | When to use |
 |---|--------|-------------|
-| 1 | **Title** | Opening card — deck title, subtitle, author byline |
+| 1 | **Title** | Opening card  -  deck title, subtitle, author byline |
 | 2 | **Speaker intro** | Bio grid with avatar; works for 1–2 speakers or human + tool |
 | 3 | **Agenda / overview** | Two-column: hook on the left, numbered outline on the right |
 | 4 | **Section header** | Landmark between major sections; large red heading |
@@ -174,7 +174,7 @@ A two-column grid wrapper using named slots.
 </RhTwoColumn>
 ```
 
-> **Note:** Do not put Mermaid fenced code blocks inside `<RhTwoColumn>` slots — they will not render. Use Slidev's built-in `two-cols` layout with `::right::` instead, or keep diagrams outside the component.
+> **Note:** Do not put Mermaid fenced code blocks inside `<RhTwoColumn>` slots  -  they will not render. Use Slidev's built-in `two-cols` layout with `::right::` instead, or keep diagrams outside the component.
 
 ---
 
@@ -326,9 +326,9 @@ Drop any PNG, JPG, or SVG into `public/` and reference it as `/filename.ext`:
 |-------|-------|-----|
 | Mermaid renders as a raw code fence | Block is inside a Vue component slot | Move it to plain slide Markdown or use the built-in `two-cols` layout |
 | Image overflows slide height | `max-h-[Xvh]` is relative to the browser viewport, not the Slidev canvas | Use the `.rh-image-slide` flex wrapper (see slide 11 example) |
-| Goto (`g`) dialog list pokes into view | Slidev bug — dialog not hidden when closed | The `#slidev-goto-dialog` rule in `styles/index.css` patches this |
+| Goto (`g`) dialog list pokes into view | Slidev bug  -  dialog not hidden when closed | The `#slidev-goto-dialog` rule in `styles/index.css` patches this |
 | `--base` breaks local dev | `build --base /repo-name/` only applies to the production build | Keep `--base` in the `build` script only, not `dev` |
-| Edge labels with parens break Mermaid | `A -->|O(1) lookup| B` — parens parsed as node syntax | Wrap in quotes: `A -->|"O(1) lookup"| B` |
+| Edge labels with parens break Mermaid | `A -->|O(1) lookup| B`  -  parens parsed as node syntax | Wrap in quotes: `A -->|"O(1) lookup"| B` |
 | `depends_on` on Terraform modules (if applicable) | Defers all data sources to apply-time | Pass outputs as inputs for implicit ordering instead |
 
 ---
@@ -362,4 +362,4 @@ Open a PR against this template with:
 - Component improvements with backward-compatible prop changes
 - Bug fixes for layout or Slidev version compatibility
 
-Run `make build` before submitting — a successful build confirms no broken imports or Mermaid parse errors.
+Run `make build` before submitting  -  a successful build confirms no broken imports or Mermaid parse errors.

@@ -1,11 +1,11 @@
 <!--
-  PhaseAnimation.vue — reference implementation of the Pattern B reactive phase animation.
+  PhaseAnimation.vue  -  reference implementation of the Pattern B reactive phase animation.
 
   This component animates a four-phase Kubernetes balloon-pod lifecycle:
-    1. At Rest       — balloons hold warm capacity on 4 nodes
-    2. Spike         — HPA fires, balloons evicted, free slot filled instantly
-    3. Provisioning  — apps running, autoscaler provisions new headroom node (5–7 min)
-    4. Restored      — new node ready, balloons rescheduled
+    1. At Rest        -  balloons hold warm capacity on 4 nodes
+    2. Spike          -  HPA fires, balloons evicted, free slot filled instantly
+    3. Provisioning   -  apps running, autoscaler provisions new headroom node (5–7 min)
+    4. Restored       -  new node ready, balloons rescheduled
 
   Use it as a learning example or copy-paste starting point.
   See AGENTS.md → "Animated components → Pattern B" for the full authoring guide.
@@ -17,7 +17,8 @@
     4. The timer, dot, progress bar, and pause logic can be reused unchanged.
 -->
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
+import { useIsSlideActive } from '@slidev/client'
 
 type PodType = 'app' | 'balloon' | 'empty' | 'evicting' | 'provisioning'
 
@@ -34,7 +35,7 @@ const pr = (): Pod => ({ type: 'provisioning', label: '···' })
 const PHASES: Phase[] = [
   {
     label: 'At Rest',
-    sublabel: 'Balloons hold warm capacity — zero CPU consumed, full slot reserved',
+    sublabel: 'Balloons hold warm capacity  -  zero CPU consumed, full slot reserved',
     nodes: [
       { id: 'node-1', status: 'ready', visible: true,  pods: [a(), a(), a(), b()] },
       { id: 'node-2', status: 'ready', visible: true,  pods: [a(), a(), a(), b()] },
@@ -44,7 +45,7 @@ const PHASES: Phase[] = [
     ],
   },
   {
-    label: 'Spike — HPA fires',
+    label: 'Spike  -  HPA fires',
     sublabel: 'Scheduler evicts low-priority balloons to place new app pods instantly',
     nodes: [
       { id: 'node-1', status: 'ready', visible: true,  pods: [a(), a(), a(), ev()] },
@@ -55,7 +56,7 @@ const PHASES: Phase[] = [
     ],
   },
   {
-    label: 'Provisioning Headroom — 5–7 minutes',
+    label: 'Provisioning Headroom  -  5–7 minutes',
     sublabel: 'App pods already running · autoscaler restores balloon capacity in background',
     nodes: [
       { id: 'node-1', status: 'ready',        visible: true, pods: [a(), a(), a(), a()] },
@@ -120,7 +121,22 @@ function selectPhase(i: number) {
   }
 }
 
-onMounted(() => startTimers())
+const isActive = useIsSlideActive()
+
+watch(isActive, (active) => {
+  if (active) {
+    paused.value     = false
+    phaseIndex.value = 0
+    progress.value   = 0
+    startTimers()
+  } else {
+    stopTimers()
+    phaseIndex.value = 0
+    progress.value   = 0
+    paused.value     = false
+  }
+}, { immediate: true })
+
 onUnmounted(() => stopTimers())
 </script>
 

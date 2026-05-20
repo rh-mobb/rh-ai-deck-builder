@@ -1,4 +1,4 @@
-# AGENTS.md — mobb-deck-template
+# AGENTS.md  -  mobb-deck-template
 
 This is a Red Hat-themed [Slidev](https://sli.dev/) presentation template. It uses Markdown for content, Vue 3 SFCs for reusable components, and a custom CSS layer over the Slidev default theme. This document is the authoritative guide for AI agents making changes to this template or to any deck derived from it.
 
@@ -8,15 +8,15 @@ This is a Red Hat-themed [Slidev](https://sli.dev/) presentation template. It us
 
 | File | Purpose |
 |------|---------|
-| `slides.md` | 15 example slide formats — the pattern library |
-| `AGENTS.md` | This file — authoring rules for AI agents |
-| `README.md` | Human usage guide — setup, components, customisation |
+| `slides.md` | 15 example slide formats  -  the pattern library |
+| `AGENTS.md` | This file  -  authoring rules for AI agents |
+| `README.md` | Human usage guide  -  setup, components, customisation |
 | `PROMPT.md` | Ready-to-paste kickoff prompt for generating a first-draft deck from a project repo |
 | `styles/index.css` | Red Hat palette, typography, layout helpers |
 | `components/` | Vue components: `RhTwoColumn`, `RhTable`, `RhTimeline`, `RhSpectrum` |
 | `public/` | Example images; replace with your own |
 
-When helping a user build a new presentation, always check `PROMPT.md` — it defines the expected workflow and output structure.
+When helping a user build a new presentation, always check `PROMPT.md`  -  it defines the expected workflow and output structure.
 
 ---
 
@@ -28,9 +28,9 @@ When helping a user build a new presentation, always check `PROMPT.md` — it de
 | Base theme | `@slidev/theme-default` | Customised via `styles/index.css`, not forked |
 | UI framework | Vue 3 | Components in `components/` are auto-registered |
 | Syntax highlighting | Shiki | Set in frontmatter: `highlighter: shiki` |
-| Diagrams | Mermaid | In-Markdown fenced blocks only — see constraints below |
+| Diagrams | Mermaid | In-Markdown fenced blocks only  -  see constraints below |
 | Styling | Custom CSS + UnoCSS utilities | `styles/index.css` + Tailwind-compatible class names |
-| Fonts | Google Fonts — Red Hat Display / Text / JetBrains Mono | Loaded via `@import` in `styles/index.css` |
+| Fonts | Google Fonts  -  Red Hat Display / Text / JetBrains Mono | Loaded via `@import` in `styles/index.css` |
 
 ---
 
@@ -61,7 +61,7 @@ Do not judge slide quality from Markdown source alone. Layout issues, overflow, 
    - Does the red accent, typography, and spacing read well at full-slide scale?
    - If the slide has a diagram or animation, does it still support the spoken story?
 5. Propose the smallest fix that solves the issue (spacing class, `text-sm`, splitting a slide).
-6. Ask for human feedback before sweeping restyles or large restructures — slides are subjective.
+6. Ask for human feedback before sweeping restyles or large restructures  -  slides are subjective.
 
 Repeat for **every slide you materially change**.
 
@@ -75,12 +75,12 @@ Repeat for **every slide you materially change**.
 | `styles/index.css` | RH palette variables, typography, layout helpers (`.cols-2`, `.rh-tag`, `.rh-image-slide`) |
 | `components/RhTwoColumn.vue` | Two-column slot wrapper |
 | `components/RhTable.vue` | Props-driven HTML table with RH styling |
-| `components/RhTimeline.vue` | Horizontal milestone timeline — takes `milestones[]` and optional `legend[]` props |
-| `components/RhSpectrum.vue` | Maturity/spectrum scale — takes `stages[]` prop |
+| `components/RhTimeline.vue` | Horizontal milestone timeline  -  takes `milestones[]` and optional `legend[]` props |
+| `components/RhSpectrum.vue` | Maturity/spectrum scale  -  takes `stages[]` prop |
 | `public/` | Static assets (images, SVGs) served at `/filename` |
 | `package.json` | Slidev version, npm scripts |
 
-Do not modify `node_modules/`. Do not hard-code version numbers in Terraform-style dependency pins inside `package.json` — let npm resolve ranges (`^0.49.0`).
+Do not modify `node_modules/`. Do not hard-code version numbers in Terraform-style dependency pins inside `package.json`  -  let npm resolve ranges (`^0.49.0`).
 
 ---
 
@@ -151,7 +151,7 @@ Called in Markdown as:
 <MyLayout>
   <template #left>
 
-  Left content — Markdown works here, including **bold** and lists.
+  Left content  -  Markdown works here, including **bold** and lists.
 
   </template>
   <template #right>
@@ -176,29 +176,30 @@ Use `<style scoped>` for component-specific CSS. For slide-level overrides that 
 </style>
 ```
 
-Do not override `.slidev-layout` styles from inside a component — that belongs in `styles/index.css`.
+Do not override `.slidev-layout` styles from inside a component  -  that belongs in `styles/index.css`.
 
 ### Animated components
 
-Slidev auto-registers everything in `components/` as a Vue 3 component. This means you can build fully interactive, animated diagrams in plain Vue — no Mermaid limitations, no click-progression required, loop forever or respond to presenter interaction.
+Slidev auto-registers everything in `components/` as a Vue 3 component. This means you can build fully interactive, animated diagrams in plain Vue  -  no Mermaid limitations, no click-progression required, loop forever or respond to presenter interaction.
 
 #### Two patterns
 
-**Pattern A — CSS keyframe / SVG animation**
+**Pattern A  -  CSS keyframe / SVG animation**
 For simple looping visuals (spinners, flow arrows, pulsing nodes):
 - Inline SVG directly in the template so `<style scoped>` can target SVG element IDs.
 - Use `@keyframes` + `animation:` for looping effects.
 - Wrap timing in CSS custom properties so they can be overridden per-instance via `:style`.
 - Reference `var(--rh-*)` palette tokens rather than hard-coded hex.
 
-**Pattern B — Reactive phase animation (recommended for diagrams with state)**
+**Pattern B  -  Reactive phase animation (recommended for diagrams with state)**
 For diagrams that cycle through multiple states (before/during/after, steady/spike/restore):
 
 ```vue
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onUnmounted } from 'vue'
+import { useIsSlideActive } from '@slidev/client'
 
-// 1. Define your phases as static data — each phase is a complete
+// 1. Define your phases as static data  -  each phase is a complete
 //    snapshot of what the diagram should show, not a delta.
 const PHASES = [
   { label: 'At Rest',  sublabel: '...', nodes: [ /* ... */ ] },
@@ -247,24 +248,42 @@ function selectPhase(i: number) {
   }
 }
 
-onMounted(() => startTimers())
+// 3. Only animate when this slide is actually visible.
+//    useIsSlideActive() returns false for off-screen slides even when
+//    Slidev keeps them mounted for transitions.
+const isActive = useIsSlideActive()
+watch(isActive, (active) => {
+  if (active) {
+    paused.value     = false
+    phaseIndex.value = 0
+    progress.value   = 0
+    startTimers()
+  } else {
+    stopTimers()
+    phaseIndex.value = 0
+    progress.value   = 0
+    paused.value     = false
+  }
+}, { immediate: true })
+
 onUnmounted(() => stopTimers())
 </script>
 ```
 
 Key design rules for Pattern B:
 
-- **Phases are snapshots, not deltas.** Each phase defines the complete visual state of every element. Never try to compute "what changed" — just describe "what it looks like now." Vue's reactivity and CSS `transition:` handle the visual interpolation automatically.
+- **Phases are snapshots, not deltas.** Each phase defines the complete visual state of every element. Never try to compute "what changed"  -  just describe "what it looks like now." Vue's reactivity and CSS `transition:` handle the visual interpolation automatically.
 - **Use index as `v-for` key inside a stable container.** When an element exists in every phase but changes type/colour (e.g. a pod going from `balloon` to `evicted`), key it by position so Vue reuses the DOM node and the CSS transition fires. When an element enters or leaves (e.g. a new node appearing), key it by a stable ID and wrap with `<TransitionGroup>` or use `v-show` with opacity/transform transitions.
-- **CSS `transition: all 0.4s ease` on leaf elements** is all you need for smooth colour/border changes between phases — no JavaScript animation required.
+- **CSS `transition: all 0.4s ease` on leaf elements** is all you need for smooth colour/border changes between phases  -  no JavaScript animation required.
 - **Keep invisible elements in the DOM** rather than `v-if`-ing them out of every phase. Use `opacity: 0; transform: scale(0.9); pointer-events: none` for hidden state. This preserves layout stability (no reflow when they appear) and keeps transitions smooth.
 - **Progress bar + phase dots** give the audience a visual cue that the diagram is animated without requiring explanation. Dots as clickable phase-jump targets let the presenter pause on any state during Q&A.
-- **`onUnmounted` must stop all timers.** Slidev unmounts slides when navigating away. Without cleanup, timers accumulate across navigation and can cause memory leaks or background state mutations.
+- **Use `useIsSlideActive()` instead of `onMounted` to start timers.** Slidev pre-mounts adjacent slides for transitions, so `onMounted` fires before the slide is actually visible. `useIsSlideActive()` from `@slidev/client` returns a reactive boolean that is only `true` when the slide is the current presenter view. Reset the phase index to 0 when the slide becomes active so the audience always sees the animation from the start. Stop and reset when the slide leaves view.
+- **`onUnmounted` must also stop all timers** as a safety net for full component teardown.
 
 #### Styling conventions for animated diagrams
 
 ```css
-/* Pod / node colour tokens — consistent with dark slide backgrounds */
+/* Pod / node colour tokens  -  consistent with dark slide backgrounds */
 .pod.app         { background: rgba(34,197,94,.1);  border: 1px solid #22c55e; color: #22c55e; }
 .pod.balloon     { background: rgba(245,158,11,.1); border: 1px solid #f59e0b; color: #f59e0b; }
 .pod.evicting    { background: rgba(239,68,68,.12); border: 1px solid #ef4444; color: #ef4444;
@@ -292,7 +311,7 @@ Avoid `var(--rh-*)` tokens inside animated components because the palette is des
 
 ### Rule 1: Mermaid blocks must be in plain slide Markdown
 
-Mermaid fenced blocks **only render when placed directly in slide Markdown** — not inside Vue component template slots. Slot content bypasses the Mermaid transform pipeline.
+Mermaid fenced blocks **only render when placed directly in slide Markdown**  -  not inside Vue component template slots. Slot content bypasses the Mermaid transform pipeline.
 
 ```md
 <!-- CORRECT: block is in normal slide Markdown -->
@@ -307,7 +326,7 @@ flowchart LR
 ```
 
 ```md
-<!-- WRONG: block is inside a Vue slot — renders as raw text -->
+<!-- WRONG: block is inside a Vue slot  -  renders as raw text -->
 <RhTwoColumn>
   <template #right>
 
@@ -396,7 +415,7 @@ Utility classes like `text-sm`, `mt-4`, `flex`, `items-center` are from Slidev's
 
 `max-h-[Xvh]` on images is **relative to the browser viewport**, not Slidev's scaled slide canvas. At small browser windows or in presenter mode, this causes unexpected overflow.
 
-Use the `.rh-image-slide` flex wrapper instead — it fills the available height below the title and caption without overflowing the slide canvas:
+Use the `.rh-image-slide` flex wrapper instead  -  it fills the available height below the title and caption without overflowing the slide canvas:
 
 ```md
 <div class="rh-image-slide">
@@ -420,7 +439,7 @@ The supporting CSS in `styles/index.css` handles the flex layout automatically.
 |---------|---------|-----|
 | Mermaid in a Vue slot | Raw fenced block rendered as text | Move to plain slide Markdown or use `two-cols` layout |
 | `max-h-[Xvh]` on images | Image overflows at small viewports | Use `.rh-image-slide` flex wrapper |
-| Goto dialog list visible when closed | Stray list on the right edge of every slide | Patched in `styles/index.css` (`#slidev-goto-dialog:has(input:disabled)`) — do not remove |
+| Goto dialog list visible when closed | Stray list on the right edge of every slide | Patched in `styles/index.css` (`#slidev-goto-dialog:has(input:disabled)`)  -  do not remove |
 | `--base` in `dev` script | 404 on assets during local dev | `--base` belongs only in the `build` script |
 | Mermaid edge labels with parens | Diagram parse error | Wrap label in quotes |
 | Reserved keyword as node ID | Diagram parse error | Use `endNode`, not `end` |
@@ -431,7 +450,7 @@ The supporting CSS in `styles/index.css` handles the flex layout automatically.
 
 ## Speaker notes
 
-Every slide should include a speaker note — an HTML comment block below the slide body:
+Every slide should include a speaker note  -  an HTML comment block below the slide body:
 
 ```md
 # My Slide
@@ -444,7 +463,7 @@ Transition: how to bridge to the next slide.
 -->
 ```
 
-Notes appear in presenter view. Write them as speaking prompts, not full scripts — one or two sentences per slide is enough.
+Notes appear in presenter view. Write them as speaking prompts, not full scripts  -  one or two sentences per slide is enough.
 
 ---
 
@@ -470,6 +489,15 @@ Before handing off any slide work:
 3. If the format requires a new component, create it in `components/` following the authoring patterns above.
 4. Document the new component in `README.md` (props table, usage example).
 5. Screenshot-review the new slide before committing.
+
+---
+
+## Typography
+
+**Never use em-dashes (`—`, U+2014) in any source file.**
+Use a spaced hyphen (` - `) instead. Em-dashes are invisible to most linters, cause encoding issues in scripts that do string matching, and are inconsistent across editors and copy-paste contexts.
+
+This applies to: `.md` files, `.vue` components, `.ts`/`.js` source, YAML, speaker notes, inline HTML in slides  -  everywhere.
 
 ---
 

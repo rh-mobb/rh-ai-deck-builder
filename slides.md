@@ -521,3 +521,41 @@ The closing slide should leave one idea ringing in the audience's ears.
 The red subheadline is the most prominent visual element — make it count.
 Links give people something to do after the talk; keep to 2-3.
 -->
+
+---
+
+<!-- SLIDE 16 — Reactive phase animation (Pattern B)
+  Use a self-contained Vue component to animate a multi-state diagram.
+  The component loops automatically and lets the presenter pause on any
+  state by clicking the phase dot — no Slidev click progressions needed.
+
+  When to use this pattern:
+    - You have a before/during/after story (steady state → event → recovery)
+    - The diagram has 3–6 distinct states that each deserve explanation
+    - You want the slide to be live during Q&A, not frozen on one frame
+
+  See AGENTS.md → "Animated components → Pattern B" for the full guide.
+  The reference implementation is components/PhaseAnimation.vue. -->
+
+# How Balloon Pods Work
+
+<div class="text-sm text-[var(--rh-muted)] text-center mb-4">
+
+Low-priority **pause Pods** reserve capacity ahead of bursts — the scheduler preempts them
+instantly when real workloads arrive, bridging **seconds-scale HPA decisions** and
+**minute-scale node provisioning**.
+
+</div>
+
+<PhaseAnimation />
+
+<!--
+Speaker note: Walk through each phase using the dot controls — click a dot to jump to
+that state and pause, then explain it before resuming. The animation loops automatically
+when not paused, so it's self-running while the audience reads around it.
+
+Phase 1 (At Rest): balloons hold warm slots, zero CPU consumed.
+Phase 2 (Spike): scheduler evicts balloons in < 1 second — users see no interruption.
+Phase 3 (Provisioning): autoscaler restores headroom in the background (5–7 min).
+Phase 4 (Restored): back to steady state, ready for the next spike.
+-->

@@ -180,11 +180,111 @@ Do not override `.slidev-layout` styles from inside a component — that belongs
 
 ### Animated components
 
-For CSS-animated SVG components (e.g. packet flow diagrams):
-- Inline SVG directly in the template to allow CSS targeting.
-- Use `<style scoped>` with `@keyframes` for animation.
-- Wrap timing in CSS custom properties so they can be overridden per-instance.
-- Reference `var(--rh-*)` palette variables rather than hard-coded hex values.
+Slidev auto-registers everything in `components/` as a Vue 3 component. This means you can build fully interactive, animated diagrams in plain Vue — no Mermaid limitations, no click-progression required, loop forever or respond to presenter interaction.
+
+#### Two patterns
+
+**Pattern A — CSS keyframe / SVG animation**
+For simple looping visuals (spinners, flow arrows, pulsing nodes):
+- Inline SVG directly in the template so `<style scoped>` can target SVG element IDs.
+- Use `@keyframes` + `animation:` for looping effects.
+- Wrap timing in CSS custom properties so they can be overridden per-instance via `:style`.
+- Reference `var(--rh-*)` palette tokens rather than hard-coded hex.
+
+**Pattern B — Reactive phase animation (recommended for diagrams with state)**
+For diagrams that cycle through multiple states (before/during/after, steady/spike/restore):
+
+```vue
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+
+// 1. Define your phases as static data — each phase is a complete
+//    snapshot of what the diagram should show, not a delta.
+const PHASES = [
+  { label: 'At Rest',  sublabel: '...', nodes: [ /* ... */ ] },
+  { label: 'Spike',    sublabel: '...', nodes: [ /* ... */ ] },
+  { label: 'Restored', sublabel: '...', nodes: [ /* ... */ ] },
+]
+
+const PHASE_MS = 4000   // time per phase
+const TICK_MS  = 60     // progress bar refresh rate
+
+const phaseIndex = ref(0)
+const progress   = ref(0)
+const paused     = ref(false)
+const current    = computed(() => PHASES[phaseIndex.value])
+
+let phaseTimer:    ReturnType<typeof setInterval> | null = null
+let progressTimer: ReturnType<typeof setInterval> | null = null
+
+function stopTimers() {
+  if (phaseTimer)    { clearInterval(phaseTimer);    phaseTimer    = null }
+  if (progressTimer) { clearInterval(progressTimer); progressTimer = null }
+}
+function startTimers() {
+  stopTimers()
+  phaseTimer = setInterval(() => {
+    phaseIndex.value = (phaseIndex.value + 1) % PHASES.length
+    progress.value = 0
+  }, PHASE_MS)
+  progressTimer = setInterval(() => {
+    progress.value = Math.min(100, progress.value + (TICK_MS / PHASE_MS) * 100)
+  }, TICK_MS)
+}
+
+// 2. Click a dot to jump to that phase and pause.
+//    Click the active dot again to resume.
+function selectPhase(i: number) {
+  if (paused.value && i === phaseIndex.value) {
+    paused.value = false
+    progress.value = 0
+    startTimers()
+  } else {
+    phaseIndex.value = i
+    paused.value = true
+    progress.value = 100
+    stopTimers()
+  }
+}
+
+onMounted(() => startTimers())
+onUnmounted(() => stopTimers())
+</script>
+```
+
+Key design rules for Pattern B:
+
+- **Phases are snapshots, not deltas.** Each phase defines the complete visual state of every element. Never try to compute "what changed" — just describe "what it looks like now." Vue's reactivity and CSS `transition:` handle the visual interpolation automatically.
+- **Use index as `v-for` key inside a stable container.** When an element exists in every phase but changes type/colour (e.g. a pod going from `balloon` to `evicted`), key it by position so Vue reuses the DOM node and the CSS transition fires. When an element enters or leaves (e.g. a new node appearing), key it by a stable ID and wrap with `<TransitionGroup>` or use `v-show` with opacity/transform transitions.
+- **CSS `transition: all 0.4s ease` on leaf elements** is all you need for smooth colour/border changes between phases — no JavaScript animation required.
+- **Keep invisible elements in the DOM** rather than `v-if`-ing them out of every phase. Use `opacity: 0; transform: scale(0.9); pointer-events: none` for hidden state. This preserves layout stability (no reflow when they appear) and keeps transitions smooth.
+- **Progress bar + phase dots** give the audience a visual cue that the diagram is animated without requiring explanation. Dots as clickable phase-jump targets let the presenter pause on any state during Q&A.
+- **`onUnmounted` must stop all timers.** Slidev unmounts slides when navigating away. Without cleanup, timers accumulate across navigation and can cause memory leaks or background state mutations.
+
+#### Styling conventions for animated diagrams
+
+```css
+/* Pod / node colour tokens — consistent with dark slide backgrounds */
+.pod.app         { background: rgba(34,197,94,.1);  border: 1px solid #22c55e; color: #22c55e; }
+.pod.balloon     { background: rgba(245,158,11,.1); border: 1px solid #f59e0b; color: #f59e0b; }
+.pod.evicting    { background: rgba(239,68,68,.12); border: 1px solid #ef4444; color: #ef4444;
+                   animation: blink 0.7s ease-in-out infinite; }
+.pod.provisioning{ background: rgba(99,102,241,.1); border: 1px dashed #6366f1; color: #818cf8;
+                   animation: pulse 1.3s ease-in-out infinite; }
+.pod.empty       { background: transparent; border: 1px dashed #383838; color: transparent; }
+
+/* Transition all visual properties when class changes between phases */
+.pod { transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease; }
+
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+@keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+```
+
+Avoid `var(--rh-*)` tokens inside animated components because the palette is designed for slide typography, not diagram elements. Use explicit RGBA values with low opacity backgrounds so diagrams work on both light and dark slide backgrounds.
+
+#### Reference implementation
+
+`components/PhaseAnimation.vue` in this template is a complete working example of Pattern B. It animates a four-phase Kubernetes balloon-pod lifecycle (at rest → spike → provisioning → restored) and demonstrates all the techniques above: phase snapshots, index-keyed CSS transitions, invisible-but-present node-5, click-to-pause dots, progress bar, and timer cleanup.
 
 ---
 

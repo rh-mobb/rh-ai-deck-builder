@@ -1,0 +1,5 @@
+@layer tokens, base, layouts;
+
+/* Layout-specific styles — populated as layouts are added */
+@layer layouts {
+}

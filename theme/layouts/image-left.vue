@@ -28,6 +28,8 @@ const imageStyle = computed(() => ({
 .rh-image-left {
   display: flex;
   padding: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-image-side {

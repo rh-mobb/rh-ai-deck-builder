@@ -21,6 +21,8 @@ const { $frontmatter } = useSlideContext()
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-image-overlay {

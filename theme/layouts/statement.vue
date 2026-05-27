@@ -16,6 +16,8 @@
   flex-direction: column;
   padding: 0;
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-accent-bar {

@@ -37,6 +37,8 @@ const backgroundStyle = computed(() => {
   padding: var(--slidev-rh-space-3xl);
   position: relative;
   background: var(--slidev-rh-bg);
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-cover-overlay {

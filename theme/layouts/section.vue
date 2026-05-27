@@ -20,6 +20,8 @@
   background: var(--slidev-rh-bg-alt);
   padding: var(--slidev-rh-space-3xl);
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-section-content {

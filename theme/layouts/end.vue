@@ -19,6 +19,8 @@
   text-align: center;
   padding: var(--slidev-rh-space-3xl);
   position: relative;
+  height: 100%;
+  overflow: hidden;
 }
 
 .rh-end-content {

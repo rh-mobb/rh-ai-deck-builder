@@ -6,6 +6,9 @@
         <slot />
       </div>
     </div>
+    <div class="rh-footer">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -16,6 +19,7 @@
   justify-content: center;
   background: var(--slidev-rh-bg-alt);
   padding: var(--slidev-rh-space-3xl);
+  position: relative;
 }
 
 .rh-section-content {
@@ -42,5 +46,18 @@
   color: var(--slidev-rh-text-secondary);
   font-size: 1.25rem;
   margin-top: var(--slidev-rh-space-lg);
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: var(--slidev-rh-text-secondary);
+}
+
+.rh-footer:empty {
+  display: none;
 }
 </style>

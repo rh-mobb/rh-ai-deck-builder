@@ -13,6 +13,9 @@
         <slot name="right" />
       </div>
     </div>
+    <div class="rh-footer">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
+  position: relative;
 }
 
 .rh-accent-bar {
@@ -58,5 +62,18 @@
   width: 1px;
   background: var(--slidev-rh-border-subtle);
   flex-shrink: 0;
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: var(--slidev-rh-text-secondary);
+}
+
+.rh-footer:empty {
+  display: none;
 }
 </style>

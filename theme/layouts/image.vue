@@ -4,6 +4,9 @@
     <div class="rh-image-content">
       <slot />
     </div>
+    <div class="rh-footer">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -39,5 +42,18 @@ const { $frontmatter } = useSlideContext()
 .rh-image-content :deep(h3),
 .rh-image-content :deep(p) {
   color: #FFFFFF;
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: #FFFFFF;
+}
+
+.rh-footer:empty {
+  display: none;
 }
 </style>

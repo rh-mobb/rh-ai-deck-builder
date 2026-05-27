@@ -6,6 +6,9 @@
       <div class="rh-content-inner">
         <slot />
       </div>
+      <div class="rh-footer">
+        <slot name="footer" />
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +39,7 @@ const imageStyle = computed(() => ({
   width: 50%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .rh-accent-bar {
@@ -48,5 +52,18 @@ const imageStyle = computed(() => ({
   flex: 1;
   padding: var(--slidev-rh-space-3xl);
   overflow: auto;
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: var(--slidev-rh-text-secondary);
+}
+
+.rh-footer:empty {
+  display: none;
 }
 </style>

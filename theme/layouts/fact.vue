@@ -4,6 +4,9 @@
     <div class="rh-fact-content">
       <slot />
     </div>
+    <div class="rh-footer">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -12,6 +15,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
+  position: relative;
 }
 
 .rh-accent-bar {
@@ -42,5 +46,18 @@
   font-size: 1.25rem;
   color: var(--slidev-rh-text-secondary);
   max-width: 70%;
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: var(--slidev-rh-text-secondary);
+}
+
+.rh-footer:empty {
+  display: none;
 }
 </style>

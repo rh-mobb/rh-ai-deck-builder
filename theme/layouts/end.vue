@@ -3,6 +3,9 @@
     <div class="rh-end-content">
       <slot />
     </div>
+    <div class="rh-footer">
+      <slot name="footer" />
+    </div>
     <div class="rh-end-bar" />
   </div>
 </template>
@@ -40,6 +43,19 @@
 
 .rh-end-content :deep(a) {
   color: var(--slidev-rh-link);
+}
+
+.rh-footer {
+  position: absolute;
+  bottom: var(--slidev-rh-space-md);
+  left: var(--slidev-rh-space-3xl);
+  right: var(--slidev-rh-space-3xl);
+  font-size: 0.75rem;
+  color: var(--slidev-rh-text-secondary);
+}
+
+.rh-footer:empty {
+  display: none;
 }
 
 .rh-end-bar {

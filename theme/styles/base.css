@@ -1,5 +1,4 @@
-@layer base {
-  .slidev-layout {
+.slidev-layout {
     background: var(--slidev-rh-bg);
     color: var(--slidev-rh-text-primary);
     font-family: var(--slidev-rh-font-body);
@@ -129,8 +128,7 @@
     overflow: hidden;
   }
 
-  .slidev-layout .mermaid svg {
-    max-width: 100%;
-    height: auto;
-  }
+.slidev-layout .mermaid svg {
+  max-width: 100%;
+  height: auto;
 }

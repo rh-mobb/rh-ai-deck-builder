@@ -1,5 +1,1 @@
-@layer tokens, base, layouts;
-
-/* Layout-specific styles — populated as layouts are added */
-@layer layouts {
-}
+/* Layout-specific styles — currently handled by scoped styles in each layout component */

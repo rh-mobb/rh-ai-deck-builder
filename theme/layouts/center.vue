@@ -32,8 +32,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
   padding: var(--slidev-rh-space-3xl);
+}
+
+.rh-center-content :deep(h1),
+.rh-center-content :deep(h2),
+.rh-center-content :deep(h3) {
+  text-align: center;
+}
+
+.rh-center-content :deep(p),
+.rh-center-content :deep(.v-clicks) {
+  text-align: left;
+  width: 100%;
+  max-width: 70%;
 }
 
 .rh-footer {

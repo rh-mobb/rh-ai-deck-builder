@@ -27,13 +27,13 @@
 
 .rh-content {
   flex: 1;
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   overflow: auto;
 }
 
 .rh-footer {
   flex-shrink: 0;
-  padding: 0 var(--slidev-rh-space-3xl) var(--slidev-rh-space-lg);
+  padding: 0 var(--slidev-rh-space-2xl) var(--slidev-rh-space-lg);
 }
 
 .rh-footer:empty {

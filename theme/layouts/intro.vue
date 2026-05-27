@@ -40,8 +40,8 @@ const { $frontmatter } = useSlideContext()
   flex: 1;
   display: flex;
   align-items: center;
-  gap: var(--slidev-rh-space-3xl);
-  padding: var(--slidev-rh-space-3xl);
+  gap: var(--slidev-rh-space-2xl);
+  padding: var(--slidev-rh-space-2xl);
 }
 
 .rh-intro-photo {
@@ -61,12 +61,12 @@ const { $frontmatter } = useSlideContext()
 }
 
 .rh-intro-text :deep(h1) {
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   margin-bottom: var(--slidev-rh-space-md);
 }
 
 .rh-intro-text :deep(h2) {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   font-weight: 400;
   color: var(--slidev-rh-text-secondary);
   margin-bottom: var(--slidev-rh-space-xl);
@@ -79,8 +79,8 @@ const { $frontmatter } = useSlideContext()
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: var(--slidev-rh-text-secondary);
 }

@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   position: relative;
   height: 100%;
   overflow: hidden;
@@ -32,14 +32,14 @@
 }
 
 .rh-end-content :deep(h1) {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: var(--slidev-rh-space-xl);
 }
 
 .rh-end-content :deep(p) {
   color: var(--slidev-rh-text-secondary);
-  font-size: 1.125rem;
+  font-size: 0.95rem;
   margin-bottom: var(--slidev-rh-space-md);
 }
 
@@ -50,8 +50,8 @@
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: var(--slidev-rh-text-secondary);
 }

@@ -31,14 +31,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--slidev-rh-space-3xl) var(--slidev-rh-space-4xl);
+  padding: var(--slidev-rh-space-2xl) var(--slidev-rh-space-3xl);
 }
 
 .rh-quote-content :deep(blockquote) {
   border-left: 4px solid var(--slidev-rh-brand-red);
   padding-left: var(--slidev-rh-space-2xl);
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   font-style: italic;
   color: var(--slidev-rh-text-primary);
   line-height: 1.4;
@@ -58,8 +58,8 @@
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: var(--slidev-rh-text-secondary);
 }

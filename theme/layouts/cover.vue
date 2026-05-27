@@ -34,7 +34,7 @@ const backgroundStyle = computed(() => {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   position: relative;
   background: var(--slidev-rh-bg);
   height: 100%;
@@ -56,21 +56,21 @@ const backgroundStyle = computed(() => {
 }
 
 .rh-cover-content :deep(h1) {
-  font-size: 3.5rem;
+  font-size: 2.25rem;
   font-weight: 700;
   margin-bottom: var(--slidev-rh-space-xl);
 }
 
 .rh-cover-content :deep(p) {
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: var(--slidev-rh-text-secondary);
 }
 
 .rh-cover-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-xl);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   text-align: center;
   z-index: 1;
 }

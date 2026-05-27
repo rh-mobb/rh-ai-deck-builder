@@ -36,7 +36,7 @@
   flex: 1;
   display: flex;
   gap: 0;
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   overflow: auto;
 }
 
@@ -62,8 +62,8 @@
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: var(--slidev-rh-text-secondary);
 }

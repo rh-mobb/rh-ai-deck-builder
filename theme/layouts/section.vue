@@ -18,7 +18,7 @@
   flex-direction: column;
   justify-content: center;
   background: var(--slidev-rh-bg-alt);
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   position: relative;
   height: 100%;
   overflow: hidden;
@@ -40,21 +40,21 @@
 }
 
 .rh-section-text :deep(h1) {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
 }
 
 .rh-section-text :deep(p) {
   color: var(--slidev-rh-text-secondary);
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   margin-top: var(--slidev-rh-space-lg);
 }
 
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: var(--slidev-rh-text-secondary);
 }

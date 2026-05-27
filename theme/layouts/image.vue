@@ -35,7 +35,7 @@ const { $frontmatter } = useSlideContext()
 .rh-image-content {
   position: relative;
   z-index: 1;
-  padding: var(--slidev-rh-space-3xl);
+  padding: var(--slidev-rh-space-2xl);
   color: #FFFFFF;
 }
 
@@ -49,8 +49,8 @@ const { $frontmatter } = useSlideContext()
 .rh-footer {
   position: absolute;
   bottom: var(--slidev-rh-space-md);
-  left: var(--slidev-rh-space-3xl);
-  right: var(--slidev-rh-space-3xl);
+  left: var(--slidev-rh-space-2xl);
+  right: var(--slidev-rh-space-2xl);
   font-size: 0.75rem;
   color: #FFFFFF;
 }

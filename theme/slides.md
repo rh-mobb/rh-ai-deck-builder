@@ -76,28 +76,24 @@ layout: two-cols-header
 
 ::left::
 
-## Traditional VM-Based
+### Traditional VM-Based
 
 ```mermaid
 graph TD
     A[Developer] -->|Push| B[CI Server]
-    B -->|Build| C[Artifact]
-    C -->|Deploy| D[VM]
-    D -->|Configure| E[App Running]
+    B -->|Build| C[VM Deploy]
 ```
 
 Manual scaling, slow deployments
 
 ::right::
 
-## Cloud-Native Kubernetes
+### Cloud-Native Kubernetes
 
 ```mermaid
 graph TD
     A[Developer] -->|Push| B[CI/CD Pipeline]
-    B -->|Build| C[Container Image]
-    C -->|Deploy| D[Kubernetes]
-    D -->|Auto-scale| E[Pods Running]
+    B -->|Build| C[K8s Deploy]
 ```
 
 Declarative, automated, scalable
@@ -117,7 +113,7 @@ layout: default
 
 Here's how to deploy a simple application on OpenShift or Kubernetes:
 
-```typescript
+```typescript {maxHeight:'320px'}
 import * as k8s from '@kubernetes/client-node';
 
 const deployment = {

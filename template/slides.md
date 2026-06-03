@@ -1,5 +1,5 @@
 ---
-theme: default
+theme: red-hat-deck
 title: "Your Presentation Title Here"
 info: |
   A one or two sentence description of this talk.
@@ -10,10 +10,37 @@ fonts:
   sans: Red Hat Text
   serif: Red Hat Display
   mono: JetBrains Mono
+addons:
+  - slidev-addon-red-hat-components
+---
+
+<!-- SLIDE 1  -  AI disclaimer
+  Always the first slide. Brief, honest, non-alarmist.
+  Keep it one paragraph — the audience should be able to read it in 10 seconds.
+  Centered via flex wrapper (Slidev does not support per-slide frontmatter on slide 1). -->
+
+<div class="h-full flex flex-col items-center justify-center text-center">
+
+# A Note on This Presentation
+
+<div class="mt-6 max-w-2xl mx-auto text-[var(--rh-muted)] leading-relaxed">
+
+This presentation was created with the assistance of AI. While the visuals are polished and the structure is sound, the content may contain inaccuracies. Please verify any technical claims, pricing figures, or roadmap dates before relying on them.
+
+</div>
+
+<div class="mt-8 text-xs text-[var(--rh-muted)] italic">
+
+AI-assisted · verify before you trust
+
+</div>
+
+</div>
+
 ---
 
 <!-- ============================================================
-  SLIDE 1  -  Title slide
+  SLIDE 2  -  Title slide (was SLIDE 1)
   The opening card. One strong headline, optional subtitle,
   and a byline. Keep it sparse  -  the slide reads fast in a dark room.
 ============================================================ -->
@@ -29,6 +56,7 @@ Your Name · Your Role · Organisation · Year
 <!--
 Speaker note: Welcome the audience, introduce yourself briefly.
 State the core thesis of the talk in one sentence.
+Brand rule: title ≤2 lines (official Red Hat standard). If it runs long, cut — move context to the subtitle.
 -->
 
 ---
@@ -45,7 +73,7 @@ State the core thesis of the talk in one sentence.
 <div class="cols-2 mt-2 gap-6 text-sm leading-snug [&_h3]:!text-xl [&_h3]:!mt-0 [&_h3]:!mb-1">
 <div class="flex flex-col items-center text-center">
 
-<img src="/paul-bio.png" alt="Paul Czarkowski" class="w-28 h-28 shrink-0 rounded-full object-cover object-top mb-2 border-2 border-[var(--rh-red)]" />
+<img src="/speaker.png" alt="Speaker" class="w-28 h-28 shrink-0 rounded-full object-cover object-top mb-2 border-2 border-[var(--rh-red)]" />
 
 ### Paul Czarkowski
 <div class="rh-tag mb-2">Human</div>
@@ -83,6 +111,7 @@ Great for framing a tool, a team-mate, or a system as a co-presenter.
 Keep intros short  -  60 seconds max. Use the second column for a tool,
 an AI, or a co-presenter. Remove it entirely for a solo talk by deleting
 the second <div class="flex flex-col..."> block and the enclosing cols-2 div.
+Brand rule: speaker photo is optional — the red circle border alone is sufficient if no headshot is available.
 -->
 
 ---
@@ -119,6 +148,7 @@ One or two sentences that set the stakes. Why should the audience care right now
 <!--
 Use the left column for the "why this matters" and the right for the agenda.
 Keep agenda items short  -  they'll reappear as section headers.
+Brand rule: agenda lists max 5-6 items per column. Split into two columns (cols-2) if the talk has more than 6 sections.
 -->
 
 ---
@@ -139,6 +169,7 @@ class: section-header
 <!--
 Section headers give the audience a landmark. Keep the h1 to a section
 number or short label; use h2 for the full title so it can wrap naturally.
+Brand rule: divider text ≤3 lines. Optional: add supporting copy to a right column using cols-2.
 -->
 
 ---
@@ -177,6 +208,7 @@ number or short label; use h2 for the full title so it can wrap naturally.
 RhTwoColumn is a thin wrapper around the .cols-2 grid utility.
 Tip: Use ### headings inside the slots to label each column clearly.
 The blockquote accent at the bottom anchors the takeaway message.
+Brand rule: slide title ≤1 line on content slides. If you need more context, put it in the ### headings or the blockquote, not the h1.
 -->
 
 ---
@@ -205,6 +237,8 @@ Optional callout paragraph in muted text  -  good for caveats, context, or attri
 <!--
 This is the safest layout. When in doubt, use it.
 Rule of thumb: if the bullets need sub-bullets, split into two slides.
+Brand rule: title ≤1 line. Keep bullets to 4-5 items max — beyond that, split the slide.
+If any claim comes from external research, add a source line at the bottom: `Source: Name, Year`.
 -->
 
 ---
@@ -241,9 +275,10 @@ def connect(host: str, port: int, timeout: int = 10):
 > *The fix is one function change. The headline is why it matters.*
 
 <!--
-Use ### headings to label before/after blocks. Keep code excerpts short  - 
+Use ### headings to label before/after blocks. Keep code excerpts short  -  
 if the block scrolls, split the slide or extract the key lines.
 lineNumbers: false is set globally; enable per-block with {lines:true} in the fence.
+Brand rule: code slides rarely need a source, but do credit external snippets with a muted caption below the block.
 -->
 
 ---
@@ -273,10 +308,17 @@ Add a sentence below the table to draw the reader's eye to the most important ro
 
 </div>
 
+<div class="mt-2 text-xs text-[var(--rh-muted)]">
+
+Source: Your Source, Year
+
+</div>
+
 <!--
 RhTable renders a full-width responsive table with RH styling.
 Keep tables to 4 columns or fewer  -  they compress badly at slide scale.
 For wider data, consider splitting into two tables or using a bullet list.
+Brand rule: always include a source line on data slides. Delete it only if the data is self-generated or obvious.
 -->
 
 ---
@@ -315,6 +357,7 @@ flowchart LR keeps wide diagrams readable. Use node IDs without spaces
 (camelCase or underscores). Quote edge labels that contain special chars:
   A -->|"O(1) lookup"| B   ← correct
   A -->|O(1) lookup| B     ← breaks (parens parsed as node syntax)
+Brand rule: diagram slides benefit from a muted source or attribution line if the architecture is from an external reference.
 -->
 
 ---
@@ -409,8 +452,8 @@ Source: Your Citation, Year
 
 <!--
 Use this format sparingly  -  one per major section at most.
-The number or quote should be the single most important data point
-on this slide. Everything else is context.
+The number or quote should be the single most important data point on this slide. Everything else is context.
+Brand rule: always cite the source. If you can't name the source, don't use the stat.
 -->
 
 ---

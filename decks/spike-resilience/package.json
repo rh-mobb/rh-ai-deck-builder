@@ -1,7 +1,7 @@
 {
-  "name": "rosa-comparison-deck",
+  "name": "spike-resilience-deck",
   "version": "1.0.0",
-  "description": "ROSA Classic vs ROSA HCP: The Case for Migration",
+  "description": "Surviving Sudden Traffic Spikes on ROSA HCP",
   "private": true,
   "scripts": {
     "dev": "slidev slides.md --open",

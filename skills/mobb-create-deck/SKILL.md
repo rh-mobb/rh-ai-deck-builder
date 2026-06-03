@@ -1,3 +1,8 @@
+---
+name: mobb-create-deck
+description: Use when creating a presentation deck from a situation or existing project, before writing any slides—interview the user to clarify intent, audience, and scope
+---
+
 # Creating Compelling Decks
 
 Creating a deck is a discovery problem, not a writing problem. Without clarity on **who** you're talking to and **why**, you'll generate slides about the wrong thing. Interview first, write once.
@@ -15,6 +20,57 @@ Creating a deck is a discovery problem, not a writing problem. Without clarity o
 - Deck structure and content are already fully specified
 - This is refinement of an existing draft (use feedback loop instead)
 
+## Demo Mode
+
+When the user invokes this skill with the argument **"demo"**, run this flow instead of the standard opening:
+
+### Step 1 — Present the demo brief
+
+Tell the user:
+
+> I have a pre-written deck brief you can use to see the full skill in action. Here it is:
+>
+> ---
+> **Deck:** Why OpenShift Is an Application Platform — and Why That Makes It Superior to Vanilla Kubernetes
+>
+> **For:** A 30-minute technical talk aimed at platform engineers and architects who are evaluating whether to adopt vanilla Kubernetes (EKS, AKS, GKE, or self-managed kubeadm) or OpenShift. They know Kubernetes. They've run it in production. They are skeptical of vendor marketing. The goal is to show them — with specifics, not adjectives — that Kubernetes is an engine and OpenShift is a car: teams that choose vanilla Kubernetes spend 30–50% of their platform engineering time building things OpenShift ships on day one, and they never fully catch up.
+>
+> **Audience:** Platform engineers, architects, and technical leads at mid-to-large enterprises. Deep Kubernetes knowledge. Budget authority or strong influence over it. Care about: developer velocity, security posture, operational burden, and total cost of ownership. Will push back immediately on any claim that sounds like marketing.
+>
+> **Thesis:** Kubernetes solves container orchestration. OpenShift solves application delivery. These are different problems, and conflating them is the root cause of most "vanilla Kubernetes is fine" decisions that come back painful two years later.
+>
+> **Five key messages:**
+> 1. Developer experience out of the box — Source-to-Image, Developer Hub, Tekton Pipelines, and ArgoCD ship integrated, not assembled from community tutorials
+> 2. Security by default — Security Context Constraints, hardened defaults, image signing with Sigstore, FIPS compliance, and NetworkPolicy enforcement from day one; not a post-hoc audit item
+> 3. Operational completeness — Cluster Logging, user workload monitoring (Prometheus stack), OLM for operator lifecycle, and `must-gather` for support — integrated and supported, not duct-taped together
+> 4. Enterprise lifecycle guarantees — RHEL CoreOS base, Extended Update Support channels, CVE SLAs, and 24/7 Red Hat support; not a community Slack at 2am
+> 5. Platform portability without re-platforming — the same platform runs on AWS (ROSA), Azure (ARO), GCP, on-prem bare metal, and fully disconnected environments; your runbooks transfer
+>
+> **Feel:** Confidence that OpenShift is leverage, not lock-in. Relief that the hard problems — security, observability, developer onboarding — are solved decisions, not deferred ones.
+>
+> **Do:** Start a 60-day ROSA trial or request an OpenShift proof-of-concept cluster from your Red Hat account team.
+>
+> **Tone:** Data-driven and direct. Skeptical engineers, not executives. Show the math. Name the specific Kubernetes gap each OpenShift feature closes. No adjectives without evidence.
+>
+> **Length:** 30 minutes. SCR narrative (the situation and complication are immediately relatable to the audience; no need for an extended SCQA research phase).
+>
+> ---
+
+### Step 2 — Give the user a choice
+
+Ask:
+
+> You can use this brief as-is, customise it, or describe your own deck topic instead.
+> Which would you like?
+> - **A** — Use this brief (I'll confirm each section and move straight to the remaining interview questions)
+> - **B** — Customise it (tell me what to change)
+> - **C** — Write my own (start the standard interview from question 1)
+
+### Step 3 — Proceed
+
+- **A or B:** Accept or apply edits. Pre-populate DECK_DESIGN.md with the brief answers (questions 1–7 are effectively answered). Then ask questions 8–10 one at a time as normal — reference material, tone confirmation, and diagram approach. After all 10 are answered, show the complete design doc and ask for approval before writing slides. Output the deck to `decks/demo/`.
+- **C:** Run the standard interview from question 1. Output the deck to `decks/demo/`.
+
 ## Before the Interview: Template Setup
 
 **Special case: If you're inside the mobb-deck-template repo itself**
@@ -28,38 +84,125 @@ Creating a deck is a discovery problem, not a writing problem. Without clarity o
 - If template doesn't exist, ask user which setup option they prefer (project-local or central)
 - Once template location is confirmed, proceed to interview
 
+## Every Deck: Mandatory First Slide
+
+The very first slide of every deck must be an AI disclaimer. It goes before the title slide — slide 1, always.
+
+**Why:** These decks are AI-assisted. The audience deserves to know the visuals may be polished but the content may have inaccuracies.
+
+Use this pattern (centered via flex wrapper — Slidev does not support per-slide `layout:` frontmatter on slide 1):
+
+```markdown
+---
+theme: red-hat-deck
+title: "Your Presentation Title"
+info: |
+  Short description.
+  Author · Role · Year
+highlighter: shiki
+lineNumbers: false
+fonts:
+  sans: Red Hat Text
+  serif: Red Hat Display
+  mono: JetBrains Mono
+addons:
+  - slidev-addon-red-hat-components
+---
+
+<div class="h-full flex flex-col items-center justify-center text-center">
+
+# A Note on This Presentation
+
+<div class="mt-6 max-w-2xl mx-auto text-[var(--rh-muted)] leading-relaxed">
+
+This presentation was created with the assistance of AI. While the visuals are polished and the structure is sound, the content may contain inaccuracies. Please verify any technical claims, pricing figures, or roadmap dates before relying on them.
+
+</div>
+
+<div class="mt-8 text-xs text-[var(--rh-muted)] italic">
+
+AI-assisted · verify before you trust
+
+</div>
+
+</div>
+
+---
+
+# Your Title Slide Here
+```
+
+**Technical note:** Do NOT use `layout: center` for slide 1. Slidev parses any content between the global frontmatter closing `---` and the first slide separator `---` as slide 1 content — there is no way to attach per-slide frontmatter to it. Use the flex wrapper instead.
+
 ## After Design Doc Approval: Deck Setup
 
-Before writing slides, set up the deck directory with essential template files.
+Create a minimal deck directory that depends on the theme and addon packages.
 
-**Inside mobb-deck-template repo:**
+### Option A: Inside mobb-deck-template repo (local development)
+
 ```bash
-mkdir -p decks/[deck-name]
-# Copy only essential files (not example slides or reference patterns)
-cp template/package.json decks/[deck-name]/
-cp template/Makefile decks/[deck-name]/
-cp -r template/styles decks/[deck-name]/
-cp -r template/components decks/[deck-name]/
-# Create empty public/ directory for assets
 mkdir -p decks/[deck-name]/public
 cd decks/[deck-name]
+```
+
+Create `package.json`:
+```json
+{
+  "name": "[deck-name]-deck",
+  "version": "1.0.0",
+  "description": "Your deck description",
+  "private": true,
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.49.0",
+    "slidev-theme-red-hat-deck": "file:../../theme",
+    "slidev-addon-red-hat-components": "file:../../addon"
+  }
+}
+```
+
+Then:
+```bash
 npm install
 ```
 
-**What you're copying:**
-- `package.json` - Slidev + npm script dependencies
-- `Makefile` - `make dev` and `make build` commands
-- `styles/index.css` - Red Hat palette, typography, layout helpers
-- `components/RhTwoColumn.vue`, `RhTable.vue`, `RhTimeline.vue`, `RhSpectrum.vue` - Generic reusable Vue components
-- `public/` - Static assets directory (images, SVGs you'll add for this specific deck)
+### Option B: External project (not in mobb-deck-template)
 
-**What stays in template/ (reference only):**
-- `template/slides.md` - Pattern library of all 15 example slide formats. Reference this when deciding slide layouts for your content.
-- `template/components/PhaseAnimation.vue` - Reference implementation for custom animated diagrams. Study this pattern if you need to build stateful Vue animations.
-- `template/AGENTS.md`, `README.md`, `PROMPT.md` - Documentation and workflow guides. Keep these in template/ only.
-- `template/references/` - Pattern library snapshots. Reference for visual style and slide format examples.
+Create `package.json` in your project:
+```json
+{
+  "name": "[deck-name]-deck",
+  "version": "1.0.0",
+  "description": "Your deck description",
+  "private": true,
+  "scripts": {
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.49.0",
+    "slidev-theme-red-hat-deck": "github:paulczar/mobb-deck-template/theme",
+    "slidev-addon-red-hat-components": "github:paulczar/mobb-deck-template/addon"
+  }
+}
+```
 
-**Why this separation:** Each deck is self-contained (can run independently), but the template stays clean and decoupled from specific decks. If you need a fancy animation pattern later, you have the reference implementation in `template/components/PhaseAnimation.vue`.
+Then:
+```bash
+npm install
+```
+
+**Why this approach (Slidev theme + addon):**
+- **Theme** (`slidev-theme-red-hat-deck`) — Provides all Red Hat styling, typography, and CSS variables globally
+- **Addon** (`slidev-addon-red-hat-components`) — Provides reusable Vue components (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)
+- **Your deck** — Only contains `slides.md` (content), `DECK_DESIGN.md` (design doc), and `public/` (images/assets)
+
+**No copying or duplication.** Each deck is lean and references the shared theme/addon. Changes to the theme or addon automatically apply to all decks.
 
 ## The Interview Pattern
 
@@ -152,21 +295,25 @@ Should this feel formal, conversational, data-driven, storytelling?
 
 ### 10. **Diagrams and animations?**
 
-For architectural, flow, or concept diagrams, do you want:
+For architectural, flow, or concept diagrams, the default is Vue-based components. Ask only if there's a reason to deviate.
 
-**Option A: Simple & Fast (Mermaid)**
-- Mermaid diagrams (flowcharts, sequences, architecture blocks)
-- Quick to write, easy to maintain
-- No animations, static visuals
-- Best for: technical deep-dives, internal talks, quick turnaround
+**Default: Vue-based components**
+- Custom scoped Vue components in the deck's `components/` directory
+- Supports color coding, layout control, and animation
+- Best for: architecture comparisons, before/after diagrams, network topology, anything with a clear visual story
+- Animation: only add it when the animation itself tells the story (see animation rule below)
 
-**Option B: Stunning & Polished (Vue-based animations)**
-- Custom Vue components with animations
-- Shows information flow, state changes, interactions
-- Impressive visual impact, takes more time to build
-- Best for: conference talks, sales pitches, high-stakes presentations
+**Exception: Mermaid**
+- Use only for simple throwaway flows or when the user explicitly asks
+- Flowcharts, sequences, state diagrams where interactivity adds no value
+- Never use Mermaid inside Vue component slots — it won't render
 
-Hybrid approach: Mermaid for some sections (technical detail), Vue animations for others (impact moments)?
+**The animation rule:** Only animate a diagram when there is a compelling visual story that the motion itself communicates. Ask: "Does the animation reveal something that a static image cannot?" If yes, animate. If no, keep it static.
+
+- ✅ Animate: an attacker packet traveling and being blocked vs. breaching — motion shows the security model working
+- ✅ Animate: a pod being evicted and replaced — motion shows the scheduler acting
+- ✗ Don't animate: a node count comparison (Classic has 9, HCP has 3) — that's a static fact; animation adds noise, not clarity
+- ✗ Don't animate: a cost table — numbers don't benefit from transitions
 
 ## Interview → Design Doc → Write Workflow
 
@@ -369,11 +516,13 @@ Closing (CTA slide)
 
 9. **Study reference material:**
    - Read `template/AGENTS.md` for authoring rules, component usage, Mermaid constraints, and the mandatory browser review workflow.
-   - Open `template/slides.md` (the pattern library) as a side reference for all 15 example slide formats. Use it to decide: "What layout fits this content type best?"
+   - Open `template/slides.md` (the pattern library) as a side reference for all slide formats. Use it to decide: "What layout fits this content type best?"
+   - Refer to `addon/README.md` to see the API for `RhTwoColumn`, `RhTable`, `RhTimeline`, `RhSpectrum` components.
+   - Refer to `theme/README.md` to see available CSS classes (`.cols-2`, `.rh-tag`, etc.) and CSS variables (`--rh-red`, `--rh-surface`, etc.).
    - If building custom Vue animations, study `template/components/PhaseAnimation.vue` as a reference implementation (Pattern B: reactive phase animation).
-   - Refer to `template/README.md` if you need to understand component props or CSS utilities.
+   - **For Slidev platform questions** (`v-click`, `magic-move`, code block features, export, layout slots, slide hooks, etc.): invoke the `slidev` skill. It is authoritative for Slidev internals; this skill governs Red Hat workflow and branding. If the `slidev` skill is not installed, prompt the user to run `npx skills add slidevjs/slidev` first.
 
-10. **Write slides.md** in `decks/[deck-name]/slides.md` using mobb-deck-template formats. Match each content type to the closest slide format from the pattern library. Use the design doc as your north star.
+10. **Write slides.md** in `decks/[deck-name]/slides.md`. Start with the frontmatter and AI disclaimer slide shown in the "Every Deck" section above, then write the real content slides. Match each content type to the closest slide format from the pattern library. Use the design doc as your north star.
 
 11. **Verify against thesis.** Every slide should ladderize to the core thesis and support the Know-Feel-Do objectives. Use the Golden Rule: read only the slide headlines (dots) in sequence—the complete story should be clear without body text.
 
@@ -432,31 +581,26 @@ The design doc is your constraint system. It prevents three common failures:
 | Reference material? | Determines which stories to extract | Key Stories & Examples |
 | Tone/style? | Determines visual approach | Visual Style |
 
-## Diagram Approaches: Speed vs. Impact
+## Diagram Approaches
 
-**Mermaid (Simple & Fast)**
-- Write: `graph TD; A --> B --> C`
-- Rendering: instant, zero build overhead
-- Maintenance: easy, readable source
-- Best for: technical talks, iterating quickly, internal use
-- Trade-off: Static visuals, less impressive
+**Default: Vue components (scoped, in `components/`)**
+- Write: A self-contained `.vue` file with scoped CSS
+- Rendering: full control over layout, color, and optionally animation
+- Best for: architecture comparisons, before/after layouts, network topology, anything with a visual story
+- Maintenance: more code than Mermaid, but far more expressive
 
-**Vue Animations (Stunning & Polished)**
-- Write: Custom Vue component with transitions
-- Rendering: animated, interactive, high visual impact
-- Maintenance: requires Vue/JavaScript knowledge
-- Best for: conference talks, sales decks, high-stakes moments
-- Trade-off: Takes time to build, requires testing across browsers
+**Exception: Mermaid**
+- Write: fenced code block with `mermaid` language tag
+- Best for: simple flowcharts, sequences, or state diagrams where a static graph is sufficient
+- Never place inside Vue component slots — Mermaid won't render there
 
-**Strategy:**
-- Use Mermaid for ~70% of diagrams (technical depth, information density)
-- Use Vue animations for ~3 "wow" moments (opening sequence, core insight, closing impact)
-- Audiences remember the animated moments; Mermaid handles the heavy lifting
+**Animation rule (applies to Vue components):**
+Only add animation when the motion itself communicates something a static image cannot. The test: "Does watching this move tell the story better than seeing it frozen?" If yes, animate. If no, static is cleaner.
 
-**Hybrid example:**
-- Section 1 (impact): Vue animation of the problem (connects emotionally)
-- Sections 2-4 (substance): Mermaid flowcharts of solution details (clear and fast)
-- Section 5 (call-to-action): Vue animation of the path forward (motivational finish)
+- ✅ Good animation: attacker packet traveling and being blocked — the motion IS the security story
+- ✅ Good animation: pod eviction and rescheduling — motion shows the system acting
+- ✗ Skip animation: node count comparison — it's a fact, not a story
+- ✗ Skip animation: cost tables, architecture labels, bullet reveals
 
 ## The 5-5-5 Rule
 

@@ -1,16 +1,38 @@
 ---
-theme: default
+theme: red-hat-deck
 title: "ROSA Classic vs ROSA HCP: The Case for Migration"
 info: |
   Why the operational, technical, and cost improvements of ROSA HCP
   justify the effort to migrate from ROSA Classic.
-  Red Hat · 2026
+  Red Hat Managed Services · 2026
 highlighter: shiki
 lineNumbers: false
 fonts:
   sans: Red Hat Text
   serif: Red Hat Display
   mono: JetBrains Mono
+addons:
+  - slidev-addon-red-hat-components
+---
+
+<div class="h-full flex flex-col items-center justify-center text-center">
+
+# A Note on This Presentation
+
+<div class="mt-6 max-w-2xl mx-auto text-[var(--rh-muted)] leading-relaxed">
+
+This presentation was created with the assistance of AI. While the visuals are polished and the structure is sound, the content may contain inaccuracies. Please verify any technical claims, pricing figures, or roadmap dates before relying on them.
+
+</div>
+
+<div class="mt-8 text-xs text-[var(--rh-muted)] italic">
+
+AI-assisted · verify before you trust
+
+</div>
+
+</div>
+
 ---
 
 # ROSA Classic vs ROSA HCP
@@ -18,481 +40,623 @@ fonts:
 ## The Case for Migration
 
 <div class="mt-8 text-[var(--rh-muted)]">
-Red Hat Managed Services · 2026
+Red Hat · Managed Services · 2026
 </div>
 
 <!--
-Speaker note: Welcome the ops/SRE teams. This talk is for teams running ROSA Classic in production. We know you've invested in Classic, we know migration feels risky—but HCP removes the operational burden you carry every day. By the end of this talk, you'll see the ROI clearly.
+Speaker note: Welcome the ops/SRE teams. This talk is for teams running ROSA Classic in production.
+We know Classic works - it got you here. But there is a better way, and today we will show you the ROI clearly.
+Brand rule: title ≤2 lines (official Red Hat standard).
 -->
 
 ---
 
-# Running ROSA Classic: The Hidden Cost
+# Meet the Speaker
 
-A typical week for Classic ops: monitoring master/infra nodes in your AWS account, managing node capacity, responding to cost overages from running 9 always-on nodes. It works, but it demands constant attention.
+<div class="cols-2 mt-2 gap-6 text-sm leading-snug [&_h3]:!text-xl [&_h3]:!mt-0 [&_h3]:!mb-1">
+<div class="flex flex-col items-center text-center">
 
-**The question we're answering today:** Is there a better way?
+<img src="/speaker.png" alt="Speaker" class="w-28 h-28 shrink-0 rounded-full object-cover object-top mb-2 border-2 border-[var(--rh-red)]" />
 
-<div class="cols-2 mt-4 text-sm">
+### Paul Czarkowski
+<div class="rh-tag mb-2">Red Hat</div>
+
+Senior Principal Cloud Specialist
+
+Red Hat Managed OpenShift Black Belt - 15+ years in cloud infrastructure, focused on Kubernetes, OpenShift, ROSA, and ARO.
+
+<div class="mt-1.5 text-[var(--rh-muted)] text-xs">
+
+[github.com/paulczar](https://github.com/paulczar) · [redhat.com](https://redhat.com)
+
+</div>
+</div>
+<div class="flex flex-col items-center text-center">
+
+<div class="w-28 h-28 shrink-0 rounded-full mb-2 border-2 border-[var(--rh-blue)] flex items-center justify-center text-4xl" style="background: var(--rh-surface)">⎈</div>
+
+### Your Team
+<div class="rh-tag mb-2" style="background: var(--rh-blue)">You</div>
+
+Ops/SRE teams running ROSA Classic in production.
+
+You know Kubernetes, AWS, and ROSA. You are ready to evaluate the next step.
+
+<div class="mt-1.5 text-[var(--rh-muted)] text-xs">
+
+Running ROSA Classic today
+
+</div>
+</div>
+</div>
+
+<!--
+Speaker note: Brief intro. Keep it under 60 seconds.
+The second column frames the audience - this helps them self-identify as the right room.
+Brand rule: speaker photo optional; red circle border alone is sufficient if no headshot.
+-->
+
+---
+
+# This Talk
+
+<div class="cols-2">
 <div>
 
-**What you manage in Classic:**
-- 3 master nodes (availability)
-- 3 infra nodes (platform services)
-- N worker nodes (your apps)
+**6 fewer EC2 instances. Zero control plane management. 4× faster deployments.**
+
+If you are running ROSA Classic, you are paying an operational tax every day - in money, in toil, and in roadmap lag. This talk quantifies the tax and shows the path out.
 
 </div>
 <div>
 
-**What it costs you:**
-- Infrastructure overhead
-- Operational toil
-- Limited feature velocity
-- Uncertainty about the roadmap
+**What we will cover:**
+
+1. Cost efficiency - 6 fewer instances
+2. Infrastructure simplification
+3. Faster deployment and autoscaling
+4. Improved security and compliance
+5. Roadmap advantage - HCP is the future
 
 </div>
 </div>
 
 <!--
-Speaker note: Paint the picture of Classic ops life. This isn't a dig at Classic—it's been solid. But the burden is real. Transition: there's a better way, and you're ready for it.
+Speaker note: Set the stakes. The audience knows Classic. They have invested in it.
+The hook: we are not telling them Classic is bad - we are telling them there is a better way with clear ROI.
+Brand rule: agenda lists max 5-6 items per column.
+-->
+
+---
+
+# Running ROSA Classic: The Hidden Tax
+
+A Classic ops team's typical week: monitoring master/infra nodes in your AWS account, managing node capacity, responding to cost overages from running 9 always-on instances. It works - but it demands constant attention.
+
+<div class="cols-2 divided mt-4 text-sm">
+<div>
+
+**What you manage in Classic:**
+- 3 master nodes (your account, your availability)
+- 3 infrastructure nodes (platform services)
+- N worker nodes (your applications)
+- **9+ instances running 24/7**
+
+</div>
+<div>
+
+**What it costs beyond the bill:**
+- Control plane monitoring and patching
+- Capacity planning for master/infra nodes
+- On-call rotation for control plane events
+- Team bandwidth taken from application work
+
+</div>
+</div>
+
+<!--
+Speaker note: SCR Situation slide. Paint the picture of Classic ops life - empathetically.
+This is not a dig at Classic. It has been solid. But the operational overhead is real and cumulative.
+Transition: there is a better way, and you are ready for it.
+Brand rule: title ≤1 line.
 -->
 
 ---
 layout: section
-class: section-header
 ---
 
 # Section 1
 ## Cost Efficiency: 6 Fewer Instances
 
 <!--
-Section header: We're moving from problem to solution. First concrete advantage: money. This resonates immediately.
+Section header: Moving from situation to resolution - first concrete advantage: money.
+Cost resonates immediately with any audience. Relief starts here.
+Brand rule: divider text ≤3 lines.
 -->
 
 ---
 
-# Infrastructure Cost Comparison
+# The Infrastructure Math
 
-**The math is simple: fewer nodes, lower bills.**
+**HCP eliminates the master and infra nodes from your AWS account entirely.**
 
-<div class="cols-2 mt-6 text-sm">
-<div>
+<RhTwoColumn divided>
+  <template #left>
 
-**ROSA Classic (multi-AZ)**
-- 3 master nodes (AWS-managed but in your account)
-- 3 infra nodes (platform services)
-- 3+ worker nodes (your apps)
-- **Total: 9+ instances running 24/7**
+  ### ROSA Classic (multi-AZ)
+  - 3 master nodes - AWS-managed but in your account
+  - 3 infrastructure nodes - platform services
+  - 3+ worker nodes - your applications
+  - **Total: 9+ instances running 24/7**
 
-</div>
-<div>
+  </template>
+  <template #right>
 
-**ROSA HCP (hosted control plane)**
-- 0 master/infra nodes (in Red Hat's AWS account)
-- 2+ worker nodes (your apps only)
-- **Total: 2+ instances running 24/7**
-- 6+ fewer EC2 instances in your account
+  ### ROSA HCP (hosted control plane)
+  - 0 master/infra nodes - Red Hat's managed AWS account
+  - 2+ worker nodes - your applications only
+  - **Total: 2+ instances running 24/7**
+  - 6+ fewer EC2 instances in your bill
 
-</div>
-</div>
+  </template>
+</RhTwoColumn>
 
-<div class="mt-6 text-center text-sm text-[var(--rh-muted)]">
-Fewer instances = lower AWS spend every month. Multiplied across a multi-year migration horizon, this becomes substantial.
-</div>
+> *Six fewer instances per cluster. The control plane moves to Red Hat's account - and off your bill.*
 
 <!--
-Speaker note: The core message: HCP eliminates the master/infra node overhead. Your account only pays for worker nodes. With a typical m5.xlarge baseline, that's 6 instances × $0.19/hour × 730 hours = ~$830/month per cluster. Across 5 clusters, $4,150/month. Over 3 years: $149,400. That's your ROI ceiling. Most real savings are higher because you're also eliminating the infra node overhead.
+Speaker note: The core message is simple: HCP externalizes the control plane.
+You only pay for the nodes running your workloads.
+Brand rule: ≤5 bullets per column.
 -->
 
 ---
 
-# Cost Savings: Beyond the Instance Count
+# Cost Savings: The Numbers
 
-The 6 fewer instances are just the beginning.
+<RhTable
+  :headers="['Cluster type', 'Instances in your account', 'Monthly delta (m5.xlarge, us-east-1)', 'Annual savings']"
+  :rows="[
+    ['ROSA Classic (3 AZ)', '9+ (master + infra + worker)', '--', '--'],
+    ['ROSA HCP (3 AZ)', '3+ (worker only)', '~$830/cluster saved', '~$10,000/cluster'],
+    ['5 ROSA HCP clusters', '15+', '~$4,150/month saved', '~$50,000'],
+  ]"
+/>
 
-<div class="mt-6">
+<div class="mt-4 text-sm text-[var(--rh-muted)]">
 
-**Additional savings from HCP:**
-
-- No control plane scaling overhead (master nodes are finite)
-- No master node patching cycles (Red Hat manages that)
-- Reduced EBS volume costs (fewer persistent volumes needed)
-- Simplified autoscaling (HCP respects your limits more cleanly)
-
-**Secondary benefit:** Your team spends less time on cluster hygiene, freeing capacity for application work.
+Savings are instance cost only. Secondary savings: eliminated EBS volumes, reduced data transfer, and reduced ops toil are additive.
 
 </div>
 
-<div class="mt-8 p-4 bg-[var(--rh-surface)] rounded text-sm">
+<div class="mt-2 text-xs text-[var(--rh-muted)]">
 
-**Typical ROI timeline:** Cost savings offset migration effort in 6-12 months for a single production cluster. Multi-cluster environments see payback in 3-4 months.
+Source: AWS EC2 on-demand pricing, m5.xlarge, us-east-1, May 2026. Actual savings vary by instance type and region.
 
 </div>
 
 <!--
-Speaker note: Don't oversell—migration is real work. But the math is clear. And this is just the cost angle. The next section is about ops burden, which is often the bigger win.
+Speaker note: Ground the math in a realistic instance type. Ops teams will push back on the numbers - be ready.
+The $830/cluster/month is conservative (m5.xlarge at $0.19/hr × 730 hr × 6 nodes).
+For larger instance types (m5.2xlarge), the savings double.
+Brand rule: always cite the source on data slides.
+-->
+
+---
+
+# ROI: Migration Pays for Itself
+
+**Typical ROI timeline: migration effort is recovered within 6-12 months per cluster.**
+
+<div class="cols-2 divided mt-4 text-sm">
+<div>
+
+**Migration costs (one-time):**
+- New cluster provisioning: hours
+- Workload migration (stateless): days
+- Workload migration (stateful, DBs): 1-2 weeks
+- Team training on HCP patterns: 1-2 days
+
+</div>
+<div>
+
+**Ongoing savings (every month):**
+- 6 fewer EC2 instances per cluster
+- Eliminated control plane patching cycles
+- Reduced on-call overhead
+- Team bandwidth redirected to product work
+
+</div>
+</div>
+
+<div class="mt-6 p-4 bg-[var(--rh-surface)] rounded text-sm">
+
+**Multi-cluster environments:** With 5+ clusters, migration effort amortizes across all clusters. Teams who migrate dev/test first gain experience before touching production - reducing the per-cluster migration cost significantly.
+
+</div>
+
+<!--
+Speaker note: Do not over-sell. Migration is real work. But the math is clear.
+And cost is just the first advantage. The next section is about ops burden - often the bigger win for teams.
 -->
 
 ---
 layout: section
-class: section-header
+
 ---
 
 # Section 2
-## Infrastructure Simplification: No Master/Infra Nodes
+## Infrastructure Simplification: No Control Plane Management
 
 <!--
-Section header: We're moving from cost (financial) to ops burden (operational). This is where teams feel the real relief.
+Section header: Moving from cost (financial win) to ops burden (the human win).
+This is where teams feel the real relief - fewer pages, fewer runbooks, less cognitive load.
+Brand rule: divider text ≤3 lines.
 -->
 
 ---
 
 # What Disappears in HCP
 
-**ROSA HCP moves the control plane to Red Hat's managed AWS environment.** Your account only runs worker nodes. This eliminates an entire class of operational tasks.
+**ROSA HCP moves the control plane to Red Hat's managed environment. Your account runs worker nodes only.**
 
-<div class="mt-6">
+- Monitoring master node health (CPU, disk, etcd latency) - gone
+- Patching master/infra nodes on a schedule - gone
+- Troubleshooting master node evictions or capacity events - gone
+- Managing platform service replicas (ingress, logging, monitoring) - gone
+- Scaling the control plane when it hits limits - gone
 
-**Tasks that vanish:**
+**What remains:** Worker node autoscaling, application deployments, and your actual product work.
 
-- Monitoring master node health (CPU, disk, etcd latency)
-- Patching master/infra nodes on a schedule
-- Troubleshooting master node evictions or capacity issues
-- Managing platform service replicas (ingress, logging, monitoring agents)
-- Scaling the control plane if it hits limits
+<div class="mt-4 text-sm text-[var(--rh-muted)]">
 
-**What remains:**
-
-- Worker node autoscaling (familiar, standard Kubernetes)
-- Application health and deployment (your core work)
+The ops surface area shrinks by two thirds. Entire categories of runbooks and alerts become unnecessary.
 
 </div>
 
 <!--
-Speaker note: This is the human win. Ops teams hate being paged for control plane issues—they're invisible to the business but very visible to your on-call rotation. HCP removes that category entirely.
+Speaker note: This is the human win. Ops teams hate being paged for control plane issues.
+Those events are invisible to the business but very visible to your on-call rotation.
+HCP removes that entire category.
 -->
 
 ---
 
-# Simplified Node Architecture
+# Architecture Before and After
 
-```mermaid
-graph TD
-    subgraph "ROSA Classic"
-        A["Master Nodes (3)<br/>in your AWS account"]
-        B["Infra Nodes (3)<br/>platform services"]
-        C["Worker Nodes (3+)<br/>your apps"]
-    end
-    
-    subgraph "ROSA HCP"
-        D["Hosted Control Plane<br/>in Red Hat AWS"]
-        E["Worker Nodes (2+)<br/>your apps"]
-    end
-    
-    A -->|managed by you| X["❌ Toil"]
-    B -->|managed by you| X
-    D -->|managed by Red Hat| Y["✓ Peace of mind"]
-    E -->|managed by you| Y
-```
-
-What you manage shrinks by 67%: from 9+ nodes to 2+ nodes.
+<ArchitectureComparison />
 
 <!--
-Speaker note: The diagram shows the shift. Classic: you manage everything. HCP: Red Hat owns the infrastructure layer, you own the application layer. That's the boundary you want.
+Speaker note: The animation pulses the master and infra nodes to highlight what is your responsibility in Classic.
+In HCP, those 6 nodes move to Red Hat's account entirely - you only run workers.
+That is the architectural shift: from managing infrastructure to managing workloads.
 -->
 
 ---
 layout: section
-class: section-header
+
 ---
 
 # Section 3
-## Faster Deployment & Autoscaling
+## Faster Deployment and Autoscaling
 
 <!--
-Section header: We're building urgency now. Cost and ops are wins; speed is competitive advantage.
+Section header: Building urgency. Cost and ops simplification are wins; speed is competitive advantage.
+Teams that can spin up clusters in 10 minutes instead of 40 operate differently.
+Brand rule: divider text ≤3 lines.
 -->
 
 ---
 
-# Deployment Speed: 4× Faster
+# Deployment Speed: 40 Minutes vs 10 Minutes
 
-**Provisioning a cluster is dramatically faster in HCP.**
+<RhTwoColumn divided>
+  <template #left>
 
-<div class="cols-2 mt-6 text-sm">
-<div>
+  ### ROSA Classic - ~40 minutes
+  1. API call creates cluster
+  2. AWS provisions 3 master + 3 infra + N worker nodes
+  3. etcd initialises, cluster readiness checks run
+  4. Network config, security groups, IAM roles
+  5. Control plane health checks pass
+  6. Cluster is ready
 
-**ROSA Classic**
-- Create cluster API call
-- AWS provisions 3 master + 3 infra + N worker nodes
-- etcd initialization, cluster readiness checks
-- Network configuration, security groups, IAM roles
-- **Total: ~40 minutes**
+  </template>
+  <template #right>
 
-</div>
-<div>
+  ### ROSA HCP - ~10 minutes
+  1. API call creates cluster
+  2. Red Hat activates a hosted control plane endpoint (seconds)
+  3. AWS provisions N worker nodes
+  4. Network config, PrivateLink endpoint, IAM roles
+  5. Worker nodes join - cluster is ready
 
-**ROSA HCP**
-- Create cluster API call
-- Red Hat provision control plane (instant in your account)
-- AWS provisions N worker nodes
-- Network configuration, IAM roles
-- **Total: ~10 minutes**
+  </template>
+</RhTwoColumn>
 
-</div>
-</div>
-
-<div class="mt-6 text-sm text-[var(--rh-muted)]">
-
-**Why this matters:** Faster cluster spin-up enables elasticity. Scale to zero for dev/test clusters. Rapid disaster recovery. On-demand compute provisioning without cluster lifecycle overhead.
-
-</div>
+> *A 4× speed improvement changes what you can do: ephemeral test clusters, rapid DR, on-demand environments.*
 
 <!--
-Speaker note: Ops teams often don't think about cluster provisioning speed until they need it. Then it becomes critical for CI/CD (ephemeral test clusters), DR scenarios, or regional failover. HCP changes the game here.
+Speaker note: Ops teams do not think about cluster provisioning speed until they need it.
+Then it becomes critical for CI/CD (ephemeral test clusters), DR scenarios, and regional failover.
+HCP changes the architecture of what is possible.
+Source: Red Hat internal benchmarks, ROSA HCP GA documentation.
 -->
 
 ---
 
-# Autoscaling Response: Cleaner and Faster
+# Why Speed Changes Your Architecture
 
-**HCP's separation of control plane from worker scaling means less contention.**
+**Faster cluster lifecycle enables patterns that are impractical with Classic.**
 
-<div class="mt-6">
+- **Ephemeral test clusters:** Spin up per-branch, tear down after CI - not realistic at 40 min
+- **Disaster recovery:** A 10-minute RTO for a new cluster vs. 40 minutes changes your SLA story
+- **Dev/test environments:** Scale to zero overnight, restore in the morning (especially with scale-to-zero on HCP roadmap)
+- **Regional failover:** Multi-region active-active becomes operationally feasible
 
-**ROSA Classic autoscaling pain points:**
-- Control plane can become a bottleneck during rapid scale events
-- Master node CPU spikes during cluster-wide scaling
-- etcd write latency increases with node count
-- You may need to pre-scale the control plane
+<div class="mt-6 p-4 bg-[var(--rh-surface)] rounded text-sm">
 
-**ROSA HCP autoscaling benefits:**
-- Control plane resources scale independently (Red Hat handles it)
-- Worker node scaling is a pure EC2 autoscaling event
-- No master node contention during bursts
-- Predictable, linear scaling response
+**Autoscaling benefit:** HCP's separation of control plane from worker nodes eliminates control plane contention during rapid scale events. Worker autoscaling is a pure EC2 event - predictable and linear.
 
 </div>
 
 <!--
-Speaker note: For teams running high-traffic or bursty workloads, this is a game-changer. Classic ops teams often work around control plane limits by pre-scaling or manually adding master node capacity. HCP removes that entirely.
+Speaker note: This slide connects speed to architecture choices.
+The teams who benefit most from this are those running ephemeral environments or needing rapid recovery.
+Transition: speed and cost are now covered. Next: security, which closes compliance conversations.
 -->
 
 ---
 layout: section
-class: section-header
+
 ---
 
 # Section 4
-## Improved Security & Compliance
+## Improved Security and Compliance
 
 <!--
-Section header: We're building confidence now. HCP isn't just cheaper and faster—it's more secure.
+Section header: Building confidence. HCP is not just cheaper and faster - it is more secure.
+This section closes compliance objections and gives security teams a reason to support the migration.
+Brand rule: divider text ≤3 lines.
 -->
 
 ---
 
-# Network Isolation: PrivateLink
+# Network Isolation: PrivateLink Architecture
 
-**ROSA HCP uses AWS PrivateLink to isolate the control plane from your data plane.**
-
-<div class="cols-2 mt-6 text-sm">
-<div>
-
-**ROSA Classic**
-- Control plane and worker nodes in the same VPC
-- Master nodes accessible via security groups (same blast radius)
-- Network policies apply uniformly
-- If compromised, attacker can reach master nodes
-
-</div>
-<div>
-
-**ROSA HCP**
-- Control plane in Red Hat's VPC
-- Worker nodes in your VPC
-- Connected only via AWS PrivateLink endpoint
-- Attacker reaching your VPC cannot directly access control plane
-- Stronger isolation boundary
-
-</div>
-</div>
-
-<div class="mt-4 p-3 bg-[var(--rh-surface)] rounded text-xs">
-
-**Compliance win:** Reduces attack surface for compliance audits (SOC 2, FedRAMP, etc.). You can enforce stricter network policies on your worker nodes without affecting the control plane.
-
-</div>
+<NetworkIsolationDiagram />
 
 <!--
-Speaker note: This is a subtle but critical security improvement. It's not that Classic is insecure—it's that HCP gives you a stronger isolation boundary. For teams with compliance requirements, this matters.
+Speaker note: The animation runs automatically - Classic shows the attacker breaching master nodes in your account,
+HCP shows the attacker stopped at the PrivateLink boundary before it can reach the control plane.
+This is the key security architectural difference: blast radius isolation.
 -->
 
 ---
 
-# Audit & Compliance Capabilities
+# Security and Compliance Benefits
 
-**ROSA HCP provides better auditability of control plane activities.**
+<RhTwoColumn divided>
+  <template #left>
 
-<div class="mt-6">
+  ### ROSA Classic
+  - Control plane and workers in same VPC blast radius
+  - Master node security managed by you
+  - etcd backup - your runbook
+  - Audit logs - your configuration
+  - Control plane patching - your schedule
 
-**Available in HCP:**
-- Red Hat-managed audit logs for API server activity
-- CloudTrail integration for control plane API calls
-- Encrypted etcd storage (managed by Red Hat)
-- Automated backup and recovery procedures
-- Compliance-ready logging for SOC 2, PCI-DSS, FedRAMP
+  </template>
+  <template #right>
 
-**Operational benefit:**
-- Your security and audit teams get production-grade visibility
-- No need to manage etcd backups or cluster recovery procedures
-- Audit trail is immutable and centralized
+  ### ROSA HCP
+  - Control plane isolated via PrivateLink (separate VPC)
+  - Red Hat manages control plane security
+  - etcd encrypted and backed up automatically
+  - Audit logs integrated with CloudTrail
+  - Control plane patched by Red Hat SRE team
 
-</div>
+  </template>
+</RhTwoColumn>
+
+> *Compliance win: reduced attack surface for SOC 2, FedRAMP, and PCI-DSS audits.*
 
 <!--
-Speaker note: For enterprise teams, audit is non-negotiable. HCP bakes it in. Classic teams often have to layer on external monitoring to satisfy audit requirements.
+Speaker note: For enterprise teams, audit is non-negotiable. HCP bakes it in.
+Classic teams often layer on external tooling to satisfy audit requirements.
+HCP ships with it built in - less to configure, less to maintain, cleaner audit story.
 -->
 
 ---
 layout: section
-class: section-header
+
 ---
 
 # Section 5
 ## Roadmap Advantage: The Future is HCP
 
 <!--
-Section header: We're building urgency and motivation now. This is about momentum and what comes next.
+Section header: Building urgency and motivation. This section is about momentum.
+Classic is maintenance mode. HCP is where innovation happens. The feature gap will compound.
+Brand rule: divider text ≤3 lines.
 -->
 
 ---
 
-# Classic is on the Sunset Path
+# Classic Gets Patches. HCP Gets Features.
 
-**New features in ROSA are HCP-first. Classic is receiving maintenance, not innovation.**
+**New features in ROSA are HCP-first. Classic receives security patches and bug fixes - not innovation.**
 
-<div class="mt-6 text-sm">
+<div class="cols-2 divided mt-4 text-sm">
+<div>
 
-**Features coming to HCP (Q2-Q3 2026 and beyond):**
+**Coming to HCP:**
+- **Autonode** - right-size nodes automatically (Q2 2026)
+- **Scale-to-zero** - eliminate idle node costs (Q3 2026)
+- **Enhanced DR** - automated zero-RTO failover
+- **Advanced observability** - integrated metrics and tracing
+- **Next-gen security** - pod security and network policies
 
-- **Autonode** - Automatically right-size nodes based on workload requirements (Q2 2026)
-- **Scale-to-zero** - Elasticity for infrastructure cost savings (Q3 2026)
-- **Enhanced disaster recovery** - Automated, zero-RTO failover
-- **Advanced observability** - Integrated metrics and tracing
-- **Next-gen security features** - Network policies, pod security
+</div>
+<div>
 
 **Classic status:**
-- Bug fixes and security patches only
+- Security patches and bug fixes only
 - No new features planned
-- Sunset date: TBD, but announced deprecation path
+- Deprecation path announced (sunset TBD)
+- Feature gap with HCP widens every quarter
 
 </div>
-
-<div class="mt-4 p-3 bg-[var(--rh-muted)] rounded text-xs">
-
-**Strategic message:** Staying on Classic means staying behind. HCP is where innovation happens.
-
 </div>
 
-<!--
-Speaker note: This is about momentum. Your team will be learning new features on HCP while Classic teams are maintaining the status quo. Over a 3-year horizon, that feature gap becomes significant.
--->
+<div class="mt-4 text-xs text-[var(--rh-muted)]">
 
----
-
-# Why the Roadmap Shift?
-
-**HCP is architecturally simpler and more efficient for Red Hat to operate.** This enables faster iteration.
-
-<div class="mt-6">
-
-**From Red Hat's perspective:**
-
-- Hosting control planes is capital-efficient (many customers, one managed infrastructure)
-- Bug fixes and feature releases don't require coordinating with customer account updates
-- Telemetry and observability are built-in (better reliability)
-- Quality assurance is easier (all clusters are on the same code version)
-
-**From your perspective:**
-
-- You get features faster (no deployment lag)
-- Clusters are more reliable (Red Hat's managed infrastructure is battle-tested across thousands of deployments)
-- Your team isn't managing the control plane, so they can focus on your roadmap
+Source: Red Hat ROSA roadmap announcements, ROSA HCP GA blog post (January 2024). Roadmap dates subject to change.
 
 </div>
 
 <!--
-Speaker note: This isn't just marketing—it's structural. HCP is genuinely simpler for Red Hat to operate, which means faster iteration for you.
+Speaker note: This creates urgency. The feature gap is real and it compounds.
+Teams on Classic today will be learning new HCP features in 2027 that HCP teams have had since 2025.
+That is two years of operational maturity to catch up on.
+Brand rule: cite the source on roadmap data.
 -->
 
 ---
 
-# Next Steps: Migration Planning
+# Project Timeline: HCP Feature Delivery
 
-**You're convinced. What now?**
+<RhTimeline
+  :milestones="[
+    { date: 'Jan 2024', label: 'ROSA HCP\nGA launch',         color: '#5BA352' },
+    { date: 'Q2 2026', label: 'Autonode\nGA',                  color: '#73BCF7' },
+    { date: 'Q3 2026', label: 'Scale-to-zero\nGA',             color: '#73BCF7' },
+    { date: 'Q4 2026', label: 'Enhanced DR\nGA',               color: '#73BCF7' },
+    { date: 'TBD',     label: 'Classic\nsunset',               color: '#C9190B' },
+  ]"
+  :legend="[
+    { color: '#5BA352', label: 'Shipped' },
+    { color: '#73BCF7', label: 'Roadmap (HCP)' },
+    { color: '#C9190B', label: 'Classic end' },
+  ]"
+/>
 
-<div class="mt-6">
+<div class="mt-4 text-sm text-[var(--rh-muted)]">
 
-**This is a conversation, not a decision.**
+Each quarter on Classic is a quarter further behind on operational maturity and feature readiness.
+
+</div>
+
+<!--
+Speaker note: The timeline makes the gap visual. Every green dot is something HCP teams have that Classic teams are waiting for.
+The red Classic sunset date is the forcing function - migration is not optional, it is a question of when.
+Source: Red Hat ROSA roadmap announcements. Dates subject to change.
+-->
+
+---
+
+# Why HCP Gets Features First
+
+**HCP is structurally simpler for Red Hat to operate. That enables faster iteration.**
+
+- **Single code version:** All HCP clusters run the same control plane version - testing is cheaper
+- **Direct telemetry:** Red Hat sees every cluster's health without requiring customer-side agents
+- **Faster release cycles:** Bug fixes ship to all customers simultaneously - no customer-side deployment required
+- **Capital efficiency:** One managed control plane fleet serves thousands of customer clusters
+
+<div class="mt-6 p-4 bg-[var(--rh-surface)] rounded text-sm">
+
+**For your team:** Features arrive faster. You are not waiting for coordination between Red Hat's release and your maintenance window. HCP clusters self-update their control planes on Red Hat's schedule.
+
+</div>
+
+<!--
+Speaker note: This is not just marketing - it is structural.
+HCP is genuinely simpler for Red Hat to operate, which means faster iteration for you.
+The audience needs to understand why the roadmap split exists - it is an architectural reality, not a business preference.
+-->
+
+---
+layout: center
+class: text-center
+---
+
+# The Case, Summarised
+
+<v-clicks>
+
+💰 **Cost** - 6 fewer EC2 instances per cluster, $10K+ annual savings
+
+🔧 **Simplification** - zero control plane management, entire runbook categories eliminated
+
+⚡ **Speed** - 10-minute cluster provisioning vs. 40 minutes; clean autoscaling
+
+🔒 **Security** - PrivateLink isolation, managed audit, automated etcd backup
+
+🚀 **Roadmap** - Autonode and scale-to-zero ship to HCP; Classic is maintenance-only
+
+</v-clicks>
+
+<!--
+Speaker note: Read these with the audience. Let each one land.
+The goal is for every bullet to resonate with something they experienced in Classic.
+Transition: so what do we do next?
+Brand rule: centre layout - use sparingly, one per major section at most.
+-->
+
+---
+
+# Next Steps: Start the Conversation
+
+**You are not committing to migrate today. You are committing to understand your path.**
 
 1. **Schedule an architecture review** with Red Hat
-   - Discuss your cluster topology (single, multi, regional)
-   - Understand workload migration patterns (can you do rolling, or do you need blue-green?)
-   - Clarify timing and dependencies
+   - Discuss your cluster topology (single, multi-cluster, regional)
+   - Understand workload migration patterns for your specific apps
+   - Clarify timing, dependencies, and team capacity
 
-2. **Build a migration runbook** together
-   - Data migration strategy
+2. **Start with a non-production cluster** (recommended)
+   - Validate your migration runbook in a low-risk environment
+   - Your team learns HCP patterns before touching production
+
+3. **Build the migration runbook together**
    - DNS and network cutover plan
-   - Rollback procedures
-   - Team training and runbooks
-
-3. **Start with a non-prod cluster** (if possible)
-   - Validate your migration process in a lower-risk environment
-   - Your ops team learns the HCP patterns before touching production
-
-</div>
+   - Data migration strategy for stateful workloads
+   - Rollback procedures and team training
 
 <!--
-Speaker note: We're not asking you to migrate tomorrow. We're asking you to start the conversation. Most teams find that once they understand HCP, the ROI case is clear. But do it on your timeline.
+Speaker note: We are not asking them to migrate tomorrow.
+We are asking them to start the conversation. Most teams find the ROI case is clear once they map it to their environment.
+The architecture review is the call to action - make it easy to say yes.
 -->
 
 ---
-
-# Closing: The Case is Clear
-
-**HCP is cheaper, simpler, faster, more secure, and the future is there.** The migration effort is real, but the gains compound.
-
-<div class="mt-8 text-center">
-
-**You came in asking:** "Is HCP worth the hassle?"
-
-**You leave knowing:** "Classic's operational burden costs us money every day. HCP removes it in 6 months."
-
-</div>
-
-<div class="mt-8 p-4 bg-[var(--rh-surface)] rounded text-sm">
-
-**Next action:** Reach out to your Red Hat account team to schedule an architecture review. Let's build the runbook together.
-
-</div>
-
-<!--
-Speaker note: End with confidence. You've made the case clearly. The audience should leave feeling: (1) we see the value, (2) we know what the first step is, (3) Red Hat has our back for the migration. If there's Q&A, be ready to dig into: specific cost numbers (they'll want your instance type and region), workload migration patterns (stateful vs stateless, databases), and timeline constraints (when do you need to be off Classic?).
--->
-
+layout: center
+class: text-center
 ---
 
-# Questions?
+# Classic carries a daily operational tax.
+## HCP removes it.
 
-**Slide deck:** This presentation and the design doc are in the mobb-deck-template repo.
+<div class="text-3xl font-bold mt-6" style="color: var(--rh-red); font-family: 'Red Hat Display', sans-serif">
+Schedule an architecture review. Let's build your migration runbook.
+</div>
 
-**Follow-up:** We'll send a migration planning workbook via email. Start there.
+<div class="mt-12 text-sm" style="color: var(--rh-muted)">
 
-<div class="mt-8 text-[var(--rh-muted)] text-sm">
-Red Hat Managed Services · ROSA Documentation · https://docs.openshift.com/rosa/
+[docs.openshift.com/rosa](https://docs.openshift.com/rosa/) ·
+[console.redhat.com](https://console.redhat.com) ·
+Contact your Red Hat account team
+
+</div>
+
+<div class="mt-6 text-xs italic" style="color: var(--rh-muted)">
+
+*The migration is real work. The ROI is clearer once you map it to your clusters. Start with dev.*
+
 </div>
 
 <!--
-Speaker note: Leave space for questions. The real value often comes in Q&A—teams will ask about their specific constraints, and you'll get concrete feedback on what blocks them.
+Speaker note: End with the single idea you want ringing in their ears.
+Classic costs them every day. HCP removes that cost. The next step is the architecture review.
+Brand rule: closing slide should leave one idea and 2-3 actionable links.
 -->

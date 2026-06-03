@@ -1,7 +1,7 @@
 {
-  "name": "rosa-comparison-deck",
+  "name": "paul-hiring-deck",
   "version": "1.0.0",
-  "description": "ROSA Classic vs ROSA HCP: The Case for Migration",
+  "description": "Why hire Paul Czarkowski: Cloud architecture, Kubernetes, and scaling expertise",
   "private": true,
   "scripts": {
     "dev": "slidev slides.md --open",

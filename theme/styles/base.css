@@ -34,7 +34,14 @@
     text-decoration: underline;
   }
 
-  .slidev-layout :is(ul, ol) {
+  .slidev-layout ul {
+    list-style-type: disc;
+    margin-bottom: var(--slidev-rh-space-lg);
+    padding-left: var(--slidev-rh-space-xl);
+  }
+
+  .slidev-layout ol {
+    list-style-type: decimal;
     margin-bottom: var(--slidev-rh-space-lg);
     padding-left: var(--slidev-rh-space-xl);
   }

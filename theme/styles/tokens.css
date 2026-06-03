@@ -1,6 +1,14 @@
 :root {
   /* Surface */
   --slidev-rh-bg: var(--rh-color-surface-lightest, #FFFFFF);
+  /* Shorthand aliases used in slides and components */
+  --rh-red: var(--slidev-rh-brand-red, #EE0000);
+  --rh-blue: var(--slidev-rh-link, #0066CC);
+  --rh-green: #5BA352;
+  --rh-yellow: #F0AB00;
+  --rh-muted: var(--slidev-rh-text-secondary);
+  --rh-surface: var(--slidev-rh-surface);
+  --rh-border: var(--slidev-rh-border-subtle);
   --slidev-rh-bg-alt: var(--rh-color-surface-lighter, #F2F2F2);
   --slidev-rh-surface: var(--rh-color-surface-light, #E0E0E0);
 

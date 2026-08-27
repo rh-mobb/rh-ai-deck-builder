@@ -98,7 +98,7 @@ Use this pattern (centered via flex wrapper — Slidev does not support per-slid
 
 ```markdown
 ---
-theme: red-hat-deck
+theme: red-hat
 title: "Your Presentation Title"
 info: |
   Short description.
@@ -163,7 +163,7 @@ Create `package.json`:
   },
   "dependencies": {
     "@slidev/cli": "^0.49.0",
-    "slidev-theme-red-hat-deck": "file:../../theme",
+    "slidev-theme-red-hat": "file:../../theme",
     "slidev-addon-red-hat-components": "file:../../addon"
   }
 }
@@ -186,7 +186,7 @@ cd <deck-name>
 ```
 
 **Why this approach (Slidev theme + addon):**
-- **Theme** (`slidev-theme-red-hat-deck`) — Provides all Red Hat styling, typography, and CSS variables globally
+- **Theme** (`slidev-theme-red-hat`) — Provides all Red Hat styling, typography, and CSS variables globally
 - **Addon** (`slidev-addon-red-hat-components`) — Provides reusable Vue components (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)
 - **Your deck** — Only contains `slides.md` (content), `DECK_DESIGN.md` (design doc), and `public/` (images/assets)
 

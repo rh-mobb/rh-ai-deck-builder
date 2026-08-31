@@ -1,0 +1,15 @@
+{
+  "name": "@rh-mobb/rh-ai-deck-builder",
+  "version": "0.1.0",
+  "description": "Red Hat MOBB Slidev deck builder — Claude plugin and scaffold tool",
+  "type": "module",
+  "bin": {
+    "rh-ai-deck": "./bin/create.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["slidev", "red-hat", "mobb", "presentation"],
+  "author": "github.com/rh-mobb",
+  "license": "MIT"
+}

@@ -1,6 +1,6 @@
 ---
 name: mobb-create-deck
-description: Use when creating a presentation deck from a situation or existing project, before writing any slides—interview the user to clarify intent, audience, and scope
+description: Use when creating a Red Hat MOBB Slidev presentation—interviews the user to clarify intent, audience, and scope before writing any slides. Requires the mobb-deck plugin (github:rh-mobb/rh-ai-deck-builder).
 ---
 
 # Creating Compelling Decks
@@ -73,16 +73,20 @@ Ask:
 
 ## Before the Interview: Template Setup
 
-**Special case: If you're inside the mobb-deck-template repo itself**
+**Special case: If you're inside the rh-ai-deck-builder repo itself**
 - ✅ Template is at `./template/`
 - Decks will be created in `./decks/[deck-name]/`
 - Proceed directly to the interview
 
-**Normal case: If you're in a different project**
-- Check if you have `mobb-deck-template` available locally
-- If template exists, confirm location with user
-- If template doesn't exist, ask user which setup option they prefer (project-local or central)
-- Once template location is confirmed, proceed to interview
+**Normal case: Starting a new deck in a fresh directory**
+- Scaffold the project first, then proceed to the interview:
+
+```bash
+npx github:rh-mobb/rh-ai-deck-builder new <deck-name>
+cd <deck-name>
+```
+
+This copies the template, theme, and addon into `./<deck-name>/` and runs `npm install`. The deck is self-contained — no ongoing dependency on the repo.
 
 ## Every Deck: Mandatory First Slide
 
@@ -94,7 +98,7 @@ Use this pattern (centered via flex wrapper — Slidev does not support per-slid
 
 ```markdown
 ---
-theme: red-hat-deck
+theme: red-hat
 title: "Your Presentation Title"
 info: |
   Short description.
@@ -138,7 +142,7 @@ AI-assisted · verify before you trust
 
 Create a minimal deck directory that depends on the theme and addon packages.
 
-### Option A: Inside mobb-deck-template repo (local development)
+### Option A: Inside rh-ai-deck-builder repo (local development)
 
 ```bash
 mkdir -p decks/[deck-name]/public
@@ -159,7 +163,7 @@ Create `package.json`:
   },
   "dependencies": {
     "@slidev/cli": "^0.49.0",
-    "slidev-theme-red-hat-deck": "file:../../theme",
+    "slidev-theme-red-hat": "file:../../theme",
     "slidev-addon-red-hat-components": "file:../../addon"
   }
 }
@@ -170,35 +174,19 @@ Then:
 npm install
 ```
 
-### Option B: External project (not in mobb-deck-template)
+### Option B: External project (scaffolded via npx)
 
-Create `package.json` in your project:
-```json
-{
-  "name": "[deck-name]-deck",
-  "version": "1.0.0",
-  "description": "Your deck description",
-  "private": true,
-  "scripts": {
-    "dev": "slidev slides.md --open",
-    "build": "slidev build slides.md",
-    "export": "slidev export slides.md"
-  },
-  "dependencies": {
-    "@slidev/cli": "^0.49.0",
-    "slidev-theme-red-hat-deck": "github:paulczar/mobb-deck-template/theme",
-    "slidev-addon-red-hat-components": "github:paulczar/mobb-deck-template/addon"
-  }
-}
-```
+If the user ran `npx github:rh-mobb/rh-ai-deck-builder new <deck-name>`, the scaffold already handled setup — the deck directory exists with theme, addon, and `npm install` complete. Skip to the interview.
 
-Then:
+If they haven't scaffolded yet, run:
+
 ```bash
-npm install
+npx github:rh-mobb/rh-ai-deck-builder new <deck-name>
+cd <deck-name>
 ```
 
 **Why this approach (Slidev theme + addon):**
-- **Theme** (`slidev-theme-red-hat-deck`) — Provides all Red Hat styling, typography, and CSS variables globally
+- **Theme** (`slidev-theme-red-hat`) — Provides all Red Hat styling, typography, and CSS variables globally
 - **Addon** (`slidev-addon-red-hat-components`) — Provides reusable Vue components (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)
 - **Your deck** — Only contains `slides.md` (content), `DECK_DESIGN.md` (design doc), and `public/` (images/assets)
 
@@ -627,7 +615,7 @@ This is your pacing engine:
 
 ## Template Authoring Rules
 
-If using mobb-deck-template, follow these constraints (full rules in template/AGENTS.md):
+If using rh-ai-deck-builder, follow these constraints (full rules in template/AGENTS.md):
 
 - **Frontmatter:** Use the template's default (theme, fonts, highlighter)
 - **Slide matching:** 15 standard formats cover 95% of content needs

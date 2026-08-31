@@ -4,6 +4,27 @@ A Red Hat-themed [Slidev](https://sli.dev/) presentation system for the MOBB (Ma
 
 ---
 
+## Install
+
+### Claude Code skill (one-time setup)
+
+```bash
+/plugins add-marketplace github:rh-mobb/rh-ai-deck-builder
+/plugins install rh-ai-deck-builder mobb-deck
+```
+
+Requires `gh` CLI auth for the private repo.
+
+### Scaffold a new deck
+
+```bash
+npx github:rh-mobb/rh-ai-deck-builder new my-talk
+cd my-talk
+npm run dev
+```
+
+---
+
 ## What's in this repo
 
 ```

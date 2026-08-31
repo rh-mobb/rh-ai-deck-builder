@@ -1,5 +1,5 @@
 ---
-theme: red-hat-deck
+theme: red-hat
 title: "Your Presentation Title Here"
 info: |
   A one or two sentence description of this talk.

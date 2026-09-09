@@ -1,4 +1,4 @@
-# mobb-deck-template
+# rh-ai-deck-builder
 
 A Red Hat-themed [Slidev](https://sli.dev/) presentation system for the MOBB (Managed OpenShift Black Belt) team. Write slides in Markdown, build animated Vue diagrams, and let an AI agent handle the heavy lifting.
 
@@ -6,7 +6,7 @@ A Red Hat-themed [Slidev](https://sli.dev/) presentation system for the MOBB (Ma
 
 ## Install
 
-### Claude Code skill (one-time setup)
+### 1. Install the Claude Code skill (one-time setup)
 
 ```bash
 /plugins add-marketplace github:rh-mobb/rh-ai-deck-builder
@@ -15,7 +15,7 @@ A Red Hat-themed [Slidev](https://sli.dev/) presentation system for the MOBB (Ma
 
 Requires `gh` CLI auth for the private repo.
 
-### Scaffold a new deck
+### 2. Scaffold a new deck
 
 ```bash
 npx github:rh-mobb/rh-ai-deck-builder new my-talk
@@ -23,17 +23,28 @@ cd my-talk
 npm run dev
 ```
 
+### 3. Create slides
+
+In Claude Code, invoke the skill:
+
+```
+/mobb-create-deck
+```
+
+The agent interviews you (10 questions, one at a time), writes a design doc, then builds the slides and opens a preview at `http://localhost:3030`.
+
 ---
 
 ## What's in this repo
 
 ```
-mobb-deck-template/
-├── theme/          ← slidev-theme-red-hat-deck  (Red Hat colours, typography, layouts)
-├── addon/          ← slidev-addon-red-hat-components  (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)
-├── template/       ← pattern library: slides.md with all 15 example formats + AGENTS.md authoring rules
-├── decks/          ← one subdirectory per deck; decks/demo/ is gitignored
-└── DECK_CREATION_SKILL.md  ← AI agent skill for creating new decks
+rh-ai-deck-builder/
+├── plugins/mobb-deck/  ← Claude Code plugin (mobb-create-deck skill)
+├── bin/create.js       ← npx scaffold script
+├── theme/              ← slidev-theme-red-hat (Red Hat colours, typography, layouts)
+├── addon/              ← slidev-addon-red-hat-components (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)
+├── template/           ← pattern library: slides.md with all 15 example formats + AGENTS.md authoring rules
+└── decks/              ← one subdirectory per deck; decks/demo/ is gitignored
 ```
 
 ---
@@ -42,18 +53,14 @@ mobb-deck-template/
 
 The fastest way to see the full deck-creation workflow is to run the built-in demo. It comes with a pre-written deck brief (OpenShift vs. vanilla Kubernetes) so you don't need to invent a topic.
 
-**Prerequisite:** Install the Slidev skills if you haven't already:
-
-```bash
-npx skills add slidevjs/slidev
-```
+**Prerequisite:** Install the mobb-deck plugin (see [Install](#install) above).
 
 **Run the demo:**
 
-In your AI agent (Claude Code, Cursor, etc.), invoke the deck creation skill in demo mode:
+In Claude Code, invoke the skill in demo mode:
 
 ```
-/deck-creation demo
+/mobb-create-deck demo
 ```
 
 The agent will:
@@ -69,15 +76,19 @@ The demo deck is gitignored so you can run it as many times as you like without 
 ## Create a new deck
 
 ```bash
-# 1. Invoke the skill in your agent
-/deck-creation
+# Option A: Scaffold + skill (recommended for new projects)
+npx github:rh-mobb/rh-ai-deck-builder new my-talk
+cd my-talk
+# then in Claude Code:
+/mobb-create-deck
 
-# 2. Answer the 10 interview questions (the agent asks one at a time)
-# 3. Approve the design doc
-# 4. The agent writes slides, installs deps, and opens a preview at http://localhost:3030
+# Option B: Inside this repo
+# The skill detects it's in the rh-ai-deck-builder repo
+# and creates decks under decks/
+/mobb-create-deck
 ```
 
-Your deck is created in `decks/[your-deck-name]/`. Each deck is a minimal package that pulls in the shared theme and addon — no copying, no duplication.
+The agent interviews you (10 questions), writes a design doc, builds the slides, and opens a preview at `http://localhost:3030`.
 
 ---
 
@@ -111,7 +122,7 @@ The theme, addon components, and CSS variables are shared from `theme/` and `add
 
 ## Further reading
 
-- [`DECK_CREATION_SKILL.md`](DECK_CREATION_SKILL.md) — full skill documentation: interview questions, design doc template, animation guidelines, and the demo mode brief
+- [`plugins/mobb-deck/skills/mobb-create-deck/SKILL.md`](plugins/mobb-deck/skills/mobb-create-deck/SKILL.md) — full skill documentation: interview questions, design doc template, animation guidelines, and the demo mode brief
 - [`template/slides.md`](template/slides.md) — all 15 slide format examples with speaker notes
 - [`template/AGENTS.md`](template/AGENTS.md) — authoring rules, component constraints, and the mandatory browser review workflow
 - [`addon/README.md`](addon/README.md) — component API reference (RhTwoColumn, RhTable, RhTimeline, RhSpectrum)

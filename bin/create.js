@@ -21,8 +21,10 @@ if (existsSync(dest)) {
   process.exit(1);
 }
 
-const skipFilter = (src) =>
-  !src.includes('node_modules') && !src.includes('package-lock.json');
+const skipFilter = (src) => {
+  const basename = src.split('/').pop();
+  return basename !== 'node_modules' && basename !== 'package-lock.json';
+};
 
 console.log(`Creating ${deckName}...`);
 

@@ -1,0 +1,8 @@
+{
+  "name": "mobb-deck",
+  "description": "Create Red Hat MOBB branded Slidev presentations",
+  "version": "0.1.0",
+  "author": {
+    "name": "github.com/rh-mobb"
+  }
+}

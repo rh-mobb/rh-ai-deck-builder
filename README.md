@@ -6,12 +6,23 @@ A Red Hat-themed [Slidev](https://sli.dev/) presentation system for the MOBB (Ma
 
 ## Install
 
-### 1. Install the Claude Code skill (one-time setup)
+### 1. Install the skill (one-time setup)
+
+**Claude Code:**
 
 ```bash
 /plugins add-marketplace github:rh-mobb/rh-ai-deck-builder
 /plugins install rh-ai-deck-builder mobb-deck
 ```
+
+**Cursor:**
+
+```bash
+mkdir -p ~/.cursor/skills/mobb-create-deck
+cp plugins/mobb-deck/skills/mobb-create-deck/SKILL.md ~/.cursor/skills/mobb-create-deck/SKILL.md
+```
+
+Or on Teams/Enterprise: **Customize → Rules → Add Rule → Remote Rule (GitHub)** and point at this repo.
 
 Requires `gh` CLI auth for the private repo.
 
@@ -25,7 +36,7 @@ npm run dev
 
 ### 3. Create slides
 
-In Claude Code, invoke the skill:
+In Claude Code or Cursor, invoke the skill:
 
 ```
 /mobb-create-deck

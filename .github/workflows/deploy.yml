@@ -31,10 +31,20 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: decks/*/node_modules
-          key: ${{ runner.os }}-decks-${{ hashFiles('decks/*/package-lock.json') }}
+          path: |
+            theme/node_modules
+            addon/node_modules
+            decks/*/node_modules
+          key: ${{ runner.os }}-nodes-${{ hashFiles('theme/package.json', 'addon/package.json', 'decks/*/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-decks-
+            ${{ runner.os }}-nodes-
+
+      - name: Install theme and addon dependencies
+        run: |
+          npm install --prefix theme --include=peer
+          if [ -f addon/package.json ]; then
+            npm install --prefix addon --include=peer
+          fi
 
       - name: Build example decks
         run: |

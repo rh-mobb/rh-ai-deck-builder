@@ -75,3 +75,4 @@ references/
 tmp/
 
 .playwright-mcp/
+*.png
